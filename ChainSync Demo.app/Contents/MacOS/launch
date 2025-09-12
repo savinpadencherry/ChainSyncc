@@ -1,0 +1,4 @@
+#!/bin/bash
+# Simple launcher that you can double-click
+cd "$(dirname "$0")/../../../"
+exec ./start-demo.sh

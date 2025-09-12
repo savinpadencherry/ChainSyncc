@@ -1,0 +1,463 @@
+/* Main container for the entire map panel */
+.map-panel {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+}
+
+/* Header section containing title and control buttons */
+.map-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Title on the left side of header */
+.map-title h3 {
+  margin: 0;
+  color: #f7fafc;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+/* Vehicle count indicator below title */
+.vehicle-count {
+  color: #4fd1c7;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+  background: rgba(79, 209, 199, 0.12);
+  border: 1px solid rgba(79, 209, 199, 0.25);
+  padding: 2px 8px;
+  width: fit-content;
+  border-radius: 999px;
+}
+
+/* Container for all control buttons */
+.map-controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* Individual control button styling */
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #a0aec0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+/* Hover effect for control buttons */
+.control-btn:hover {
+  background: rgba(79, 209, 199, 0.2);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Active state for control buttons */
+.control-btn.active {
+  background: rgba(79, 209, 199, 0.2);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.4);
+}
+
+/* Special styling for refresh button */
+.control-btn.refresh:hover {
+  background: rgba(72, 187, 120, 0.2);
+  color: #48bb78;
+  border-color: rgba(72, 187, 120, 0.4);
+}
+
+/* Special styling for India view button */
+.control-btn.india:hover {
+  background: rgba(99, 179, 237, 0.2);
+  color: #63b3ed;
+  border-color: rgba(99, 179, 237, 0.4);
+}
+
+/* Main container for the map and its controls */
+.map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Zoom control buttons positioned on the left */
+.map-zoom-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(26, 32, 44, 0.9);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Individual zoom button styling */
+.zoom-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #f7fafc;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect for zoom buttons */
+.zoom-btn:hover {
+  background: rgba(79, 209, 199, 0.3);
+  color: #4fd1c7;
+}
+
+/* Leaflet map styling - this styles the actual interactive map */
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  z-index: 1;
+}
+
+/* Dark theme for map tiles (enabled when container has .dark) */
+.leaflet-map.dark .leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) invert(1);
+}
+
+/* Vehicle popup styling */
+.vehicle-popup {
+  font-family: 'Inter', sans-serif;
+  color: #1a202c;
+}
+
+.vehicle-popup h4 {
+  margin: 0 0 8px 0;
+  color: #2d3748;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.vehicle-popup p {
+  margin: 4px 0;
+  font-size: 0.85rem;
+}
+
+.vehicle-popup .status {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.vehicle-popup .status.active {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.vehicle-popup .status.idle {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.vehicle-popup .status.maintenance {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Vehicle details panel */
+.vehicle-details {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 32, 44, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 200px;
+  z-index: 10;
+  color: #f7fafc;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.details-header h4 {
+  margin: 0;
+  color: #4fd1c7;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #a0aec0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7fafc;
+}
+
+.details-content p {
+  margin: 6px 0;
+  font-size: 0.85rem;
+  color: #a0aec0;
+}
+
+.details-content .status {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.details-content .status.active {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.details-content .status.idle {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.details-content .status.maintenance {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+/* Update legend colors for vehicle status */
+.legend-color.active {
+  background: #10b981;
+}
+
+.legend-color.idle {
+  background: #f59e0b;
+}
+
+.legend-color.maintenance {
+  background: #ef4444;
+}
+
+/* Traffic legend positioned on the right side */
+.traffic-legend {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(26, 32, 44, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 140px;
+  z-index: 10;
+}
+
+/* Header of the traffic legend */
+.legend-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f7fafc;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+/* Container for legend items */
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Individual legend item */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a0aec0;
+  font-size: 0.8rem;
+}
+
+/* Color indicator circles in legend */
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Normal traffic color (green) */
+.legend-color.normal {
+  background: #10b981;
+}
+
+/* Moderate traffic color (yellow) */
+.legend-color.moderate {
+  background: #f59e0b;
+}
+
+/* Heavy traffic color (red) */
+.legend-color.heavy {
+  background: #ef4444;
+}
+
+/* Container for legend control buttons */
+.legend-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+}
+
+/* Individual legend control buttons */
+.legend-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0aec0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+/* Hover effect for legend buttons */
+.legend-btn:hover {
+  background: rgba(79, 209, 199, 0.1);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.3);
+}
+
+/* Active state for legend buttons */
+.legend-btn.active {
+  background: rgba(79, 209, 199, 0.15);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.4);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1200px) {
+  .map-panel {
+    border-radius: 12px;
+  }
+  
+  .map-header {
+    padding: 12px 16px;
+  }
+  
+  .map-title h3 {
+    font-size: 1.1rem;
+  }
+  
+  .control-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .traffic-legend {
+    min-width: 120px;
+    padding: 12px;
+  }
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .map-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .map-controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .control-btn {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .traffic-legend {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 16px;
+    min-width: auto;
+  }
+  
+  .map-zoom-controls {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .zoom-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .map-scale {
+    bottom: 10px;
+    left: 10px;
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+}

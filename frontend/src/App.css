@@ -1,0 +1,246 @@
+/* This file contains the main layout styles for our entire application */
+:root {
+  --bg-base: #0f1419;
+  --bg-elev-1: #1a202c;
+  --bg-elev-2: #2d3748;
+  --text: #f7fafc;
+  --text-muted: #a0aec0;
+  --brand: #4fd1c7;
+  --brand-2: #63b3ed;
+  --success: #48bb78;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --radius: 12px;
+  --shadow-1: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+/* DecisionStream takes up the remaining 40% of the bottom row width */
+.bottom-row .decisions-stream {
+  flex: 0 0 40%; /* Don't grow or shrink, stay at 40% */
+}
+
+/* Full page styling for single component views */
+.full-page {
+  flex: 1; /* Take up all available space */
+  padding: 0; /* No padding since components handle their own spacing */
+  overflow: auto; /* Allow inner pages to scroll if needed */
+}
+
+/* Placeholder page styling for components not yet implemented */
+.placeholder-page {
+  flex: 1; /* Take up all available space */
+  display: flex; /* Use flexbox for centering content */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  padding: 40px; /* Add some padding around content */
+  text-align: center; /* Center text */
+}
+
+/* Placeholder page title */
+.placeholder-page h2 {
+  color: #f7fafc; /* Light text color */
+  font-size: 2rem; /* Large title */
+  font-weight: 600; /* Semi-bold */
+  margin-bottom: 16px; /* Space below title */
+}
+
+/* Placeholder page description */
+.placeholder-page p {
+  color: #a0aec0; /* Gray text color */
+  font-size: 1.1rem; /* Slightly larger text */
+  margin: 0; /* Remove default margins */
+}
+
+/* Reset some default browser styles to ensure consistency */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main container that holds our entire application */
+.app-container {
+  display: flex; /* Use flexbox to arrange sidebar and main content side by side */
+  width: 100vw; /* Take up the full width of the browser window */
+  height: 100vh; /* Take up the full height of the browser window */
+  background: linear-gradient(135deg, var(--bg-base) 0%, var(--bg-elev-1) 100%); /* Dark gradient background */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; /* Modern font */
+  color: var(--text); /* Light text color for dark theme */
+  overflow: hidden; /* Contain overall scroll within main-content */
+}
+
+/* Container for the main content area (everything except the sidebar) */
+.main-content {
+  flex: 1; /* Take up all remaining space after sidebar */
+  display: flex; /* Use flexbox for vertical layout */
+  flex-direction: column; /* Stack content vertically */
+  margin-left: 240px; /* Leave space for fixed sidebar */
+  padding-top: 70px; /* Leave space for fixed top bar */
+  min-height: calc(100vh - 70px); /* Proper height calculation */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scrolling when needed */
+}
+
+/* Container for the middle row (map and AI assistant) */
+.middle-row {
+  display: flex; /* Use flexbox to arrange map and AI assistant side by side */
+  gap: 20px; /* Space between the map and AI assistant panels */
+  padding: 20px 20px 16px; /* Padding around the entire row */
+  flex: 2; /* Take up more vertical space */
+  min-height: 500px; /* Increased minimum height for better visibility */
+  max-height: calc(65vh); /* Allow more space for middle row */
+}
+
+/* Container for the bottom row (analytics and decisions stream) */
+.bottom-row {
+  display: flex; /* Use flexbox to arrange analytics and decisions side by side */
+  gap: 20px; /* Space between the analytics and decisions panels */
+  padding: 0 20px 20px; /* Padding: no top, sides and bottom */
+  min-height: 400px; /* Increased minimum height to prevent clipping */
+  max-height: 450px; /* Prevent from getting too tall */
+  flex: 1; /* Allow bottom row to grow */
+}
+
+/* Individual panel styling (applies to all major components) */
+.middle-row > *,
+.bottom-row > * {
+  background: linear-gradient(135deg, var(--bg-elev-1) 0%, var(--bg-elev-2) 100%); /* Dark gradient background */
+  border-radius: var(--radius); /* Rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* More visible border */
+  box-shadow: var(--shadow-2); /* Enhanced drop shadow for depth */
+  overflow: hidden; /* Ensure content doesn't overflow rounded corners */
+  backdrop-filter: blur(10px); /* Add glass effect */
+}
+
+/* MapPanel takes up 70% of the middle row width */
+.middle-row .map-panel {
+  flex: 0 0 70%; /* Don't grow or shrink, stay at 70% */
+}
+
+/* AI Assistant takes up the remaining 30% of the middle row width */
+.middle-row .ai-assistant {
+  flex: 0 0 30%; /* Don't grow or shrink, stay at 30% */
+}
+
+/* Analytics panel takes up 60% of the bottom row width */
+.bottom-row .analytics-panel {
+  flex: 0 0 60%; /* Don't grow or shrink, stay at 60% */
+}
+
+/* Decisions stream takes up the remaining 40% of the bottom row width */
+.bottom-row .decisions-stream {
+  flex: 0 0 40%; /* Don't grow or shrink, stay at 40% */
+}
+
+/* Responsive design for tablets and smaller screens */
+@media (max-width: 1200px) {
+  .main-content {
+    margin-left: 200px; /* Smaller sidebar on medium screens */
+    padding-top: 60px; /* Smaller top bar */
+  }
+  
+  .middle-row,
+  .bottom-row {
+    padding: 12px; /* Less padding on smaller screens */
+    gap: 12px; /* Less gap between components */
+  }
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 60px; /* Much smaller sidebar on mobile */
+    padding-top: 60px;
+  }
+  
+  /* Stack components vertically on mobile */
+  .middle-row,
+  .bottom-row {
+    flex-direction: column; /* Stack vertically instead of horizontally */
+    padding: 12px;
+    gap: 16px;
+    height: auto; /* Let height adjust automatically */
+    min-height: auto;
+    max-height: none;
+  }
+  
+  /* Make all components take full width on mobile */
+  .middle-row > *,
+  .bottom-row > * {
+    flex: 1 1 auto; /* Allow components to grow and shrink */
+    min-height: 300px; /* Increased minimum height for better usability */
+    max-height: 500px; /* Prevent excessive height */
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 600px) {
+  .main-content {
+    margin-left: 60px;
+    padding-top: 50px;
+  }
+  
+  .middle-row > *,
+  .bottom-row > * {
+    min-height: 200px; /* Even smaller minimum height */
+    border-radius: 8px; /* Smaller border radius */
+  }
+}
+
+/* Scrollbar styling for dark theme */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #1a202c; /* Dark background for scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568; /* Color of the scrollbar handle */
+  border-radius: 4px; /* Rounded scrollbar handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096; /* Lighter color when hovering over scrollbar */
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

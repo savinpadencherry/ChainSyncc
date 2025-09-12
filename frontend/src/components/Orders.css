@@ -1,0 +1,441 @@
+/* Orders component styling */
+
+/* Main container for the orders page */
+.orders-container {
+  padding: 24px;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  min-height: 100vh;
+  color: #f7fafc;
+}
+
+/* Header section styling */
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Left side of header */
+.header-left h2 {
+  margin: 0 0 8px 0;
+  color: #f7fafc;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* Orders count indicator */
+.orders-count {
+  margin: 0;
+  color: #4fd1c7;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Filter buttons container */
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Individual filter button styling */
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #a0aec0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+/* Filter button hover effect */
+.filter-btn:hover {
+  background: rgba(79, 209, 199, 0.2);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.4);
+}
+
+/* Active filter button */
+.filter-btn.active {
+  background: rgba(79, 209, 199, 0.2);
+  color: #4fd1c7;
+  border-color: rgba(79, 209, 199, 0.4);
+}
+
+/* Count badge in filter buttons */
+.filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Orders grid layout */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+/* Individual order card */
+.order-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Order card hover effect */
+.order-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  border-color: rgba(79, 209, 199, 0.3);
+}
+
+/* Order card header */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+/* Order ID section */
+.order-id-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Order ID styling */
+.order-id {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4fd1c7;
+}
+
+/* Priority badge */
+.priority-badge {
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+/* Status indicator */
+.status-indicator {
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Customer information section */
+.customer-info {
+  margin-bottom: 16px;
+}
+
+.customer-info h4 {
+  margin: 0 0 8px 0;
+  color: #f7fafc;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Order value */
+.order-value {
+  margin: 0;
+  color: #48bb78;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Route information */
+.route-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.route-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+/* Route labels */
+.route-label {
+  color: #a0aec0;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Route locations */
+.route-location {
+  color: #f7fafc;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Arrow between route locations */
+.route-arrow {
+  color: #4fd1c7;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Order details section */
+.order-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Individual detail item */
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Detail labels */
+.detail-label {
+  color: #a0aec0;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Detail values */
+.detail-value {
+  color: #f7fafc;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Modal overlay (darkened background) */
+.order-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content container */
+.order-modal {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Modal header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #f7fafc;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Close modal button */
+.close-modal-btn {
+  background: none;
+  border: none;
+  color: #a0aec0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.close-modal-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7fafc;
+}
+
+/* Modal content */
+.modal-content {
+  padding: 24px;
+}
+
+/* Modal sections */
+.modal-section {
+  margin-bottom: 24px;
+}
+
+.modal-section h4 {
+  margin: 0 0 12px 0;
+  color: #4fd1c7;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-section p {
+  margin: 8px 0;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Status and priority row */
+.status-priority-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Modal status and priority badges */
+.modal-status,
+.modal-priority {
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Modal action buttons */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Action buttons */
+.action-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Track button */
+.action-btn.track {
+  background: linear-gradient(135deg, #4fd1c7 0%, #38b2ac 100%);
+  color: white;
+}
+
+.action-btn.track:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 209, 199, 0.3);
+}
+
+/* Edit button */
+.action-btn.edit {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.action-btn.edit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+/* Cancel button */
+.action-btn.cancel {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.action-btn.cancel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .orders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 16px;
+  }
+  
+  .orders-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .filter-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .orders-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .route-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .route-arrow {
+    transform: rotate(90deg);
+  }
+  
+  .order-modal {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+}

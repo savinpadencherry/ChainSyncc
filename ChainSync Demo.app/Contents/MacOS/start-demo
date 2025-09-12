@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Get the directory where this app bundle is located
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../" && pwd)"
+
+# Change to the project directory
+cd "$APP_DIR"
+
+# Execute the demo script
+exec ./start-demo.sh
