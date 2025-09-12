@@ -6,30 +6,24 @@ import './AnalyticsPanel.css';
 function AnalyticsPanel() {
   const [routeEfficiency, setRouteEfficiency] = useState(87);
   const [totalCost, setTotalCost] = useState(45230);
-  const [costSavings, setCostSavings] = useState(0);
   const [isOptimized, setIsOptimized] = useState(false);
   const [efficiencyTrend, setEfficiencyTrend] = useState(5.2);
 
   useEffect(() => {
-    // Listen for traffic alerts
     const handleTrafficAlert = () => {
       setRouteEfficiency(72);
       setTotalCost(52800);
       setEfficiencyTrend(-8.4);
       setIsOptimized(false);
-      setCostSavings(0);
     };
 
-    // Listen for route optimization
     const handleRouteOptimization = () => {
       setRouteEfficiency(94);
       setTotalCost(38650);
       setEfficiencyTrend(12.7);
       setIsOptimized(true);
-      setCostSavings(7580);
     };
 
-    // Listen for custom events
     window.addEventListener('trafficAlertTriggered', handleTrafficAlert);
     window.addEventListener('routeOptimized', handleRouteOptimization);
 
@@ -38,10 +32,9 @@ function AnalyticsPanel() {
       window.removeEventListener('routeOptimized', handleRouteOptimization);
     };
   }, []);
+
   return (
-    // Main container for the analytics panel
     <div className="analytics-panel">
-      {/* Header with title and time period selector */}
       <div className="analytics-header">
         <h3>Real-time Analytics</h3>
         <div className="time-selector">
@@ -51,44 +44,34 @@ function AnalyticsPanel() {
         </div>
       </div>
       
-      {/* Main content area with three metric cards */}
       <div className="analytics-content">
         {/* Cost Breakdown Card */}
         <div className="metric-card-large">
           <h4>Cost Breakdown</h4>
           <div className="chart-placeholder">
-            {/* Placeholder for pie chart */}
-            <div className="pie-chart">
-              <div className="chart-center">
-                <span className="chart-value">₹{totalCost.toLocaleString()}</span>
-                <span className="chart-label">Total Cost</span>
-                {costSavings > 0 && (
-                  <span className="cost-savings">-₹{costSavings.toLocaleString()} saved</span>
-                )}
+            <div className="cost-breakdown">
+              <div className="total-cost">
+                <div className="total-cost-value">₹{totalCost.toLocaleString()}</div>
+                <div className="total-cost-label">Total Cost</div>
               </div>
-            </div>
-            <div className="chart-legend">
-              <div className="legend-item">
-                <div className="legend-dot fuel"></div>
-                <span>Fuel (65%)</span>
+              <div className="cost-bar">
+                <div className="cost-segment fuel" style={{width: '65%'}}></div>
+                <div className="cost-segment maintenance" style={{width: '20%'}}></div>
+                <div className="cost-segment driver" style={{width: '15%'}}></div>
               </div>
-              <div className="legend-item">
-                <div className="legend-dot maintenance"></div>
-                <span>Maintenance (20%)</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-dot driver"></div>
-                <span>Driver (15%)</span>
+              <div className="cost-legend">
+                <div className="legend-item"><span>Fuel</span><span className="value">65%</span></div>
+                <div className="legend-item"><span>Maint.</span><span className="value">20%</span></div>
+                <div className="legend-item"><span>Driver</span><span className="value">15%</span></div>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Route Efficiency Card */}
+        {/* Route Efficiency Card (Kept as is) */}
         <div className="metric-card-large">
           <h4>Route Efficiency</h4>
           <div className="chart-placeholder">
-            {/* Placeholder for line chart */}
             <div className="line-chart">
               <div className="efficiency-value">
                 <span className={`big-number ${isOptimized ? 'optimized' : ''}`}>{routeEfficiency}%</span>
@@ -113,40 +96,31 @@ function AnalyticsPanel() {
             <div className="fleet-stats">
               <div className="stat-item">
                 <div className="stat-icon active">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M1 3H15L19 7V18H1V3Z" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="6" cy="18" r="2" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="14" cy="18" r="2" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M1 3h14l4 4v11H1V3z" stroke="currentColor" strokeWidth="2.5"/><circle cx="6" cy="18" r="2" stroke="currentColor" strokeWidth="2.5"/><circle cx="14" cy="18" r="2" stroke="currentColor" strokeWidth="2.5"/></svg>
                 </div>
                 <div className="stat-details">
-                  <span className="stat-number">12</span>
                   <span className="stat-label">Active</span>
+                  <span className="stat-number">12</span>
                 </div>
               </div>
               
               <div className="stat-item">
                 <div className="stat-icon idle">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                    <polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5"/><polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2.5"/></svg>
                 </div>
                 <div className="stat-details">
-                  <span className="stat-number">3</span>
                   <span className="stat-label">Idle</span>
+                  <span className="stat-number">3</span>
                 </div>
               </div>
               
               <div className="stat-item">
                 <div className="stat-icon maintenance">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M14.7 6.3L12 9L9.3 6.3A1 1 0 0 0 8 7V9H6A1 1 0 0 0 5 10V14A1 1 0 0 0 6 15H8V17A1 1 0 0 0 9.3 17.7L12 15L14.7 17.7A1 1 0 0 0 16 17V15H18A1 1 0 0 0 19 14V10A1 1 0 0 0 18 9H16V7A1 1 0 0 0 14.7 6.3Z" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3L12 9 9.3 6.3a1 1 0 0 0-1.7.7V9H6a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v1.3a1 1 0 0 0 1.7.7L12 15l2.7 2.7a1 1 0 0 0 1.7-.7V15h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2V7a1 1 0 0 0-1.7-.7z" stroke="currentColor" strokeWidth="2.5"/></svg>
                 </div>
                 <div className="stat-details">
-                  <span className="stat-number">2</span>
                   <span className="stat-label">Maintenance</span>
+                  <span className="stat-number">2</span>
                 </div>
               </div>
             </div>
@@ -157,5 +131,4 @@ function AnalyticsPanel() {
   );
 }
 
-// Export the component so it can be used in App.js
 export default AnalyticsPanel;

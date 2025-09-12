@@ -76,8 +76,8 @@
   display: flex; /* Use flexbox for vertical layout */
   flex-direction: column; /* Stack content vertically */
   margin-left: 240px; /* Leave space for fixed sidebar */
-  padding-top: 70px; /* Leave space for fixed top bar */
-  min-height: calc(100vh - 70px); /* Proper height calculation */
+  padding-top: 53px; /* Leave space for fixed top bar */
+  min-height: calc(100vh - 53px); /* Proper height calculation */
   overflow-x: hidden; /* Prevent horizontal scroll */
   overflow-y: auto; /* Allow vertical scrolling when needed */
 }
@@ -85,20 +85,20 @@
 /* Container for the middle row (map and AI assistant) */
 .middle-row {
   display: flex; /* Use flexbox to arrange map and AI assistant side by side */
-  gap: 20px; /* Space between the map and AI assistant panels */
-  padding: 20px 20px 16px; /* Padding around the entire row */
+  gap: 16px; /* Space between the map and AI assistant panels */
+  padding: 16px; /* Consistent padding around the entire row */
   flex: 2; /* Take up more vertical space */
-  min-height: 500px; /* Increased minimum height for better visibility */
-  max-height: calc(65vh); /* Allow more space for middle row */
+  min-height: 480px; /* Optimized minimum height */
+  max-height: calc(62vh); /* Optimized space for middle row */
 }
 
 /* Container for the bottom row (analytics and decisions stream) */
 .bottom-row {
   display: flex; /* Use flexbox to arrange analytics and decisions side by side */
-  gap: 20px; /* Space between the analytics and decisions panels */
-  padding: 0 20px 20px; /* Padding: no top, sides and bottom */
-  min-height: 400px; /* Increased minimum height to prevent clipping */
-  max-height: 450px; /* Prevent from getting too tall */
+  gap: 16px; /* Space between the analytics and decisions panels */
+  padding: 0 16px 16px; /* Padding: no top, sides and bottom */
+  min-height: 350px; /* Optimized minimum height to prevent clipping */
+  max-height: 380px; /* Prevent from getting too tall */
   flex: 1; /* Allow bottom row to grow */
 }
 
