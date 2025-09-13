@@ -4,13 +4,12 @@ function TopBar() {
   return (
     <div className="topbar">
       <div className="topbar-brand">
-        <div className="brand-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-        </div>
+        <img 
+          className="brand-logo"
+          src="/chainsync.jpeg"
+          alt="ChainSync logo"
+          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo192.png'; }}
+        />
         <h1 className="brand-text">ChainSync</h1>
       </div>
       

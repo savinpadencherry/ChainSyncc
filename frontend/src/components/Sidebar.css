@@ -20,20 +20,30 @@
 .logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   padding: 0 24px;
   margin-bottom: 32px;
 }
 
 .logo-icon {
-  background: linear-gradient(135deg, #4fd1c7 0%, #63b3ed 100%);
-  padding: 8px;
+  background: linear-gradient(135deg, rgba(79, 209, 199, 0.2) 0%, rgba(99, 179, 237, 0.2) 100%);
+  padding: 10px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 6px 18px rgba(79, 209, 199, 0.35);
+  box-shadow: 0 6px 18px rgba(79, 209, 199, 0.25);
+  margin: 0 auto;
+}
+
+.logo-icon .sidebar-logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 6px;
+  object-fit: cover;
+  display: block;
 }
 
 .logo h2 {
@@ -153,6 +163,11 @@ nav li svg {
   .logo {
     padding: 0 16px;
     justify-content: center;
+  }
+  
+  .logo-icon .sidebar-logo {
+    width: 36px;
+    height: 36px;
   }
   
   .logo h2 {

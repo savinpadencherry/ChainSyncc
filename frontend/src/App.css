@@ -13,6 +13,8 @@
   --radius: 12px;
   --shadow-1: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-2: 0 14px 28px rgba(0, 0, 0, 0.28);
+  /* Unified compact spacing for panel gaps/padding */
+  --panel-gap: 8px;
 }
 /* DecisionStream takes up the remaining 40% of the bottom row width */
 .bottom-row .decisions-stream {
@@ -76,8 +78,9 @@
   display: flex; /* Use flexbox for vertical layout */
   flex-direction: column; /* Stack content vertically */
   margin-left: 240px; /* Leave space for fixed sidebar */
-  padding-top: 53px; /* Leave space for fixed top bar */
-  min-height: calc(100vh - 53px); /* Proper height calculation */
+  /* Leave space for fixed top bar; panel top gap comes from row padding */
+  padding-top: 65px;
+  min-height: calc(100vh - 65px); /* Proper height calculation */
   overflow-x: hidden; /* Prevent horizontal scroll */
   overflow-y: auto; /* Allow vertical scrolling when needed */
 }
@@ -85,8 +88,8 @@
 /* Container for the middle row (map and AI assistant) */
 .middle-row {
   display: flex; /* Use flexbox to arrange map and AI assistant side by side */
-  gap: 16px; /* Space between the map and AI assistant panels */
-  padding: 16px; /* Consistent padding around the entire row */
+  gap: var(--panel-gap); /* Compact space between map and AI assistant */
+  padding: var(--panel-gap); /* Compact outer padding to reduce sidebar gap */
   flex: 2; /* Take up more vertical space */
   min-height: 480px; /* Optimized minimum height */
   max-height: calc(62vh); /* Optimized space for middle row */
@@ -95,8 +98,8 @@
 /* Container for the bottom row (analytics and decisions stream) */
 .bottom-row {
   display: flex; /* Use flexbox to arrange analytics and decisions side by side */
-  gap: 16px; /* Space between the analytics and decisions panels */
-  padding: 0 16px 16px; /* Padding: no top, sides and bottom */
+  gap: var(--panel-gap); /* Compact space between analytics and decisions */
+  padding: 0 var(--panel-gap) var(--panel-gap); /* Reduce side/bottom padding; keep top tight */
   min-height: 350px; /* Optimized minimum height to prevent clipping */
   max-height: 380px; /* Prevent from getting too tall */
   flex: 1; /* Allow bottom row to grow */

@@ -23,13 +23,12 @@
   gap: 14px;
 }
 
-.brand-icon {
-  color: #4fd1c7;
-  transition: transform 0.3s ease;
-}
-
-.brand-icon:hover {
-  transform: rotate(15deg);
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(79, 209, 199, 0.35);
 }
 
 .brand-text {

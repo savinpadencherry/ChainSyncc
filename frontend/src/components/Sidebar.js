@@ -87,11 +87,12 @@ function Sidebar({ activeTab, setActiveTab }) {
       {/* Logo section */}
       <div className="logo">
         <div className="logo-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <img 
+            className="sidebar-logo"
+            src="/chainsync.jpeg" 
+            alt="ChainSync logo"
+            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo192.png'; }}
+          />
         </div>
       </div>
       {/* Navigation menu */}

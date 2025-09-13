@@ -151,10 +151,40 @@ const routeLines = [
     isTrafficRoute: false
   },
   {
+    name: 'NH-19 Delhi-Kolkata',
+    // Inland waypoints along NH-19 to keep route on land
+    positions: [
+      [28.7041, 77.1025], // Delhi
+      [27.1767, 78.0081], // Agra
+      [26.4499, 80.3319], // Kanpur
+      [25.4358, 81.8463], // Prayagraj (Allahabad)
+      [25.3176, 82.9739], // Varanasi
+      [24.9346, 84.1924], // Dehri-on-Sone
+      [23.7957, 86.4304], // Dhanbad
+      [23.6739, 86.9524], // Asansol
+      [23.5204, 87.3119], // Durgapur
+      [23.2324, 87.8615], // Bardhaman
+      [22.5726, 88.3639]  // Kolkata
+    ],
+    color: '#34d399',
+    isTrafficRoute: true
+  },
+  {
     name: 'Chennai-Kolkata Highway',
+    // Follow inland NH-16 to avoid crossing the Bay of Bengal
     positions: [
       [13.0827, 80.2707], // Chennai
-      [20.9517, 85.0985], // Bhubaneswar
+      [14.4426, 79.9865], // Nellore
+      [15.5057, 80.0499], // Ongole
+      [16.5062, 80.6480], // Vijayawada
+      [16.7107, 81.1047], // Eluru
+      [17.0005, 81.8040], // Rajahmundry
+      [17.6868, 83.2185], // Visakhapatnam
+      [18.2969, 83.8966], // Srikakulam
+      [19.3115, 84.7929], // Berhampur
+      [20.2961, 85.8245], // Bhubaneswar
+      [21.4942, 86.9434], // Balasore
+      [22.3460, 87.2319], // Kharagpur
       [22.5726, 88.3639]  // Kolkata
     ],
     color: '#8b5cf6'
@@ -219,7 +249,10 @@ function MapPanel() {
         const map = L.map(container, {
           center: indiaCenter,
           zoom: zoomLevel,
-          zoomControl: false
+          zoomControl: false,
+          worldCopyJump: false,
+          maxBounds: [[6, 68], [37, 97]], // Approximate India bounds
+          maxBoundsViscosity: 1.0
         });
 
         // Add dark theme tile layer
@@ -227,11 +260,12 @@ function MapPanel() {
           ? L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
               subdomains: 'abcd',
-              maxZoom: 19
+              maxZoom: 19,
+              noWrap: true
             })
           : L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            });
+            , noWrap: true });
         
         tileLayer.addTo(map);
 
@@ -385,7 +419,11 @@ function MapPanel() {
           </button>
           
           {/* Button to center map on India */}
-          <button className="control-btn india active">
+          <button className="control-btn india active" onClick={() => {
+            if (mapInstanceRef.current) {
+              mapInstanceRef.current.setView(indiaCenter, zoomLevel);
+            }
+          }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 21 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>

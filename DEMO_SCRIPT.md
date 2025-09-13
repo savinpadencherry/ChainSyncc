@@ -11,7 +11,7 @@
 ### What to Show
 - **Main Dashboard View** (Live Map tab active)
   - Point to the live map with 5 vehicles across India
-  - **TopBar Metrics**: "Notice our key performance indicators - 12 active vehicles, 94% on-time delivery rate, and we've already saved ₹8,240 today through AI optimization"
+  - **TopBar Metrics**: "Notice our key performance indicators - 5 active vehicles, 94% on-time delivery rate, and we've already saved ₹8,240 today through AI optimization"
   - **Real-time Elements**: Point to the live indicators and moving elements
 
 ### Key Talking Points

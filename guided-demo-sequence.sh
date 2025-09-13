@@ -66,14 +66,14 @@ show_talking_points << 'EOF'
 Welcome to ChainSync - an AI-powered logistics management platform
 This is a real-time view of our entire logistics network spanning major Indian cities
 Our AI continuously monitors vehicle locations, traffic conditions, and operational metrics
-Notice our key performance indicators - 12 active vehicles, 94% on-time delivery rate
+Notice our key performance indicators - 5 active vehicles, 94% on-time delivery rate
 We've already saved ₹8,240 today through AI optimization
 The system has already processed 6 AI decisions today, each one saving time and money
 EOF
 
 show_actions << 'EOF'
 Point to the live map with vehicle dots
-Highlight the TopBar metrics (12 active vehicles, 94% delivery rate, ₹8,240 savings)
+Highlight the TopBar metrics (5 active vehicles, 94% delivery rate, ₹8,240 savings)
 Point to the Decision Stream panel (bottom right) showing 6 decisions
 Emphasize the live indicators and moving elements
 EOF
