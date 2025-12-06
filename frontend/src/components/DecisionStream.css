@@ -5,6 +5,7 @@
   flex-direction: column;
   height: 100%;
   background: rgba(15, 20, 25, 0.5);
+  position: relative;
 }
 
 .stream-header {
@@ -307,6 +308,99 @@
 .demo-trigger-btn:hover {
   background: rgba(245, 158, 11, 0.2);
   border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Demo Controls Container */
+.demo-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.demo-menu-btn {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+  padding: 6px 8px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-controls .demo-trigger-btn {
+  border-radius: 6px 0 0 6px;
+}
+
+.demo-menu-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+/* Reset Demo Button */
+.reset-demo-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.reset-demo-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Scenario Selection Menu */
+.scenario-menu {
+  position: absolute;
+  top: 50px;
+  right: 12px;
+  background: rgba(20, 25, 30, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 100;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  min-width: 220px;
+  animation: fadeIn 0.2s ease;
+}
+
+.scenario-menu-title {
+  color: #718096;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 10px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 4px;
+}
+
+.scenario-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.scenario-menu-item:hover {
+  background: rgba(79, 209, 199, 0.1);
+  color: #4fd1c7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Footer */

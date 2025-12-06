@@ -467,7 +467,7 @@ export const costBreakdown = {
   profitMargin: '18%'
 };
 
-// Demo scenarios for AI interactions
+// Demo scenarios for AI interactions - Extended for 5-10 minute presentation
 export const demoScenarios = [
   {
     id: 'scenario-1',
@@ -496,6 +496,191 @@ export const demoScenarios = [
       netBenefit: 'Critical delivery on time',
       loadConsideration: 'Temperature-sensitive cargo prioritized'
     }
+  },
+  {
+    id: 'scenario-3',
+    title: 'Weather Alert',
+    trigger: 'Heavy rainfall warning',
+    affectedTruck: 'TRK-005',
+    affectedVehicles: ['TRK-005', 'TRK-008'],
+    issue: 'Heavy rainfall predicted on NH-44 near Krishnagiri. Visibility reduced, road conditions hazardous.',
+    location: 'NH-44 Krishnagiri Section',
+    severity: 'high',
+    estimatedDelay: 35,
+    aiSolution: {
+      action: 'Delay departure by 2 hours OR reroute via Salem bypass',
+      recommendation: 'Recommend delay - safer for fragile cargo',
+      timeSaved: '20 minutes vs attempting in rain',
+      costImpact: '+₹0 (delay) or +₹520 fuel (reroute)',
+      netBenefit: '₹1,800 saved (accident prevention + cargo safety)',
+      loadConsideration: 'Glassware and Electronics onboard - rain poses damage risk'
+    }
+  },
+  {
+    id: 'scenario-4',
+    title: 'Vehicle Breakdown',
+    trigger: 'Engine temperature critical',
+    affectedTruck: 'TRK-006',
+    issue: 'TRK-006 engine overheating detected. Immediate stop required to prevent damage.',
+    location: 'Near Chitradurga, Karnataka',
+    severity: 'critical',
+    estimatedDelay: 90,
+    aiSolution: {
+      action: 'Emergency stop at nearest service center. Dispatch TRK-007 from Kolkata depot for cargo transfer.',
+      recommendation: 'Transfer high-priority cargo to nearby active vehicle',
+      nearestServiceCenter: 'Chitradurga Auto Works - 8 km ahead',
+      backupVehicle: 'TRK-004 (currently 45 km away)',
+      timeSaved: '60 minutes (vs waiting for full repair)',
+      costImpact: '+₹2,400 (transfer + service)',
+      netBenefit: '₹4,200 saved (customer penalty avoided)',
+      loadConsideration: 'Medical supplies must reach Chennai Port by 6 PM'
+    }
+  },
+  {
+    id: 'scenario-5',
+    title: 'Fuel Price Spike',
+    trigger: 'Fuel price alert',
+    affectedTruck: 'ALL',
+    affectedVehicles: ['TRK-001', 'TRK-002', 'TRK-003', 'TRK-005', 'TRK-006', 'TRK-008', 'TRK-010'],
+    issue: 'Fuel prices increased by ₹3.50/L at upcoming stations. 4 vehicles need refueling within 50 km.',
+    location: 'Maharashtra & Karnataka regions',
+    severity: 'medium',
+    estimatedDelay: 0,
+    aiSolution: {
+      action: 'Redirect to partner fuel stations with locked-in prices',
+      recommendation: 'Bulk refuel at Hubli depot (partner rate ₹94.50/L vs market ₹98/L)',
+      vehiclesToRefuel: ['TRK-002', 'TRK-005', 'TRK-010'],
+      totalFuelNeeded: '380 liters',
+      timeSaved: '0 minutes',
+      costImpact: '-₹1,330 fuel savings',
+      netBenefit: '₹1,330 saved on fuel costs',
+      loadConsideration: 'Minor route deviation of 12 km - acceptable for savings'
+    }
+  },
+  {
+    id: 'scenario-6',
+    title: 'Urgent Order Received',
+    trigger: 'New high-priority order',
+    affectedTruck: 'TRK-001',
+    issue: 'Urgent pharmaceutical delivery request for Pune. Must reach within 3 hours. Current route does not include Pune.',
+    location: 'Pune Central Hub',
+    severity: 'high',
+    estimatedDelay: 0,
+    aiSolution: {
+      action: 'Insert Pune stop into TRK-001 route between current stops',
+      recommendation: 'TRK-001 is 45 km from Pune, can accommodate urgent delivery',
+      routeChange: 'Mumbai Depot → Thane → PUNE (NEW) → Hinjewadi → Pimpri',
+      timeSaved: 'Delivery 2 hours ahead of alternate vehicle option',
+      costImpact: '+₹180 fuel, +₹850 premium charge to customer',
+      netBenefit: '₹2,100 additional revenue + customer satisfaction',
+      loadConsideration: 'Space available: 2.2 tons. Pharmaceutical package: 180 kg - fits perfectly'
+    }
+  },
+  {
+    id: 'scenario-7',
+    title: 'Delivery Window Risk',
+    trigger: 'SLA breach warning',
+    affectedTruck: 'TRK-003',
+    issue: 'TRK-003 ETA 5:45 PM. Customer delivery window closes at 6:00 PM. Only 15 min buffer - high risk.',
+    location: 'Noida Sector 62 Delivery',
+    severity: 'high',
+    estimatedDelay: 0,
+    aiSolution: {
+      action: 'Skip low-priority stop (Gurugram Hub) - deliver directly to Noida',
+      recommendation: 'Reschedule Gurugram delivery to TRK-008 (arriving tomorrow)',
+      routeChange: 'Delhi Depot → Noida Sector 62 (PRIORITY) → Gurugram Hub (RESCHEDULED)',
+      timeSaved: '35 minutes - new ETA 5:10 PM',
+      costImpact: '+₹0 (stop resequencing only)',
+      netBenefit: '₹5,500 SLA penalty avoided + customer retention',
+      loadConsideration: 'Noida cargo: Furniture Set (fragile) - requires careful handling'
+    }
+  },
+  {
+    id: 'scenario-8',
+    title: 'Driver Fatigue Alert',
+    trigger: 'Driver hours exceeded',
+    affectedTruck: 'TRK-010',
+    issue: 'Driver Kiran Kumar has been driving for 7.5 hours continuously. Safety regulations require 30-min break.',
+    location: 'Near Anantapur, Andhra Pradesh',
+    severity: 'medium',
+    estimatedDelay: 30,
+    aiSolution: {
+      action: 'Mandatory rest stop at nearest highway rest area',
+      recommendation: 'Schedule 30-min break at Anantapur Rest Stop (3 km ahead)',
+      nearestRestStop: 'HP Petrol Pump & Rest Area - Anantapur',
+      timeSaved: '0 minutes (safety compliance)',
+      costImpact: '+₹0 (planned break)',
+      netBenefit: 'Safety compliance + accident prevention (est. value ₹50,000+)',
+      loadConsideration: 'Notify customer of 30-min delay. Cargo secure during stop.'
+    }
+  }
+];
+
+// Extended traffic incidents for comprehensive demo
+export const extendedTrafficIncidents = [
+  {
+    id: 'TRF-001',
+    location: 'NH-48 Mumbai-Pune Highway',
+    coordinates: [19.2183, 73.0978],
+    severity: 'high',
+    type: 'Heavy Traffic Congestion',
+    description: 'Major traffic jam due to road construction near Lonavala.',
+    affectedVehicles: ['TRK-001', 'TRK-005'],
+    estimatedDelay: 45,
+    alternativeRoute: {
+      name: 'Mumbai-Pune Expressway',
+      additionalDistance: 15,
+      timeSaved: 30,
+      fuelCost: 350
+    }
+  },
+  {
+    id: 'TRF-002',
+    location: 'NH-44 Bangalore-Chennai Highway',
+    coordinates: [12.8423, 78.1245],
+    severity: 'medium',
+    type: 'Vehicle Breakdown',
+    description: 'Multiple vehicle breakdown causing lane blockage.',
+    affectedVehicles: ['TRK-002', 'TRK-010'],
+    estimatedDelay: 25,
+    alternativeRoute: {
+      name: 'Via Hosur-Dharmapuri Route',
+      additionalDistance: 35,
+      timeSaved: 15,
+      fuelCost: 480
+    }
+  },
+  {
+    id: 'TRF-003',
+    location: 'Ring Road Delhi',
+    coordinates: [28.6519, 77.2315],
+    severity: 'high',
+    type: 'Accident Ahead',
+    description: 'Multi-vehicle accident near ITO. Emergency services on site.',
+    affectedVehicles: ['TRK-003', 'TRK-008'],
+    estimatedDelay: 55,
+    alternativeRoute: {
+      name: 'Via Outer Ring Road',
+      additionalDistance: 22,
+      timeSaved: 40,
+      fuelCost: 420
+    }
+  },
+  {
+    id: 'TRF-004',
+    location: 'NH-65 Hyderabad-Vijayawada',
+    coordinates: [16.8523, 79.4512],
+    severity: 'medium',
+    type: 'Road Maintenance',
+    description: 'Single lane operation due to road resurfacing work.',
+    affectedVehicles: ['TRK-006'],
+    estimatedDelay: 30,
+    alternativeRoute: {
+      name: 'Via Warangal Route',
+      additionalDistance: 45,
+      timeSaved: 20,
+      fuelCost: 580
+    }
   }
 ];
 
@@ -505,6 +690,7 @@ export const mockData = {
   cargo: cargoData,
   vehicles: vehicleData,
   incidents: trafficIncidents,
+  extendedIncidents: extendedTrafficIncidents,
   metrics: fleetMetrics,
   routes: routeOptimization,
   drivers: driverMetrics,
