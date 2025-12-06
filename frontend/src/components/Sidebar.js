@@ -3,15 +3,17 @@ import React from 'react';
 // Import CSS for styling
 import './Sidebar.css';
 import './TopBar.css';
+import LanguageToggle, { translations } from './LanguageToggle';
 
 // Sidebar component - navigation menu for the application
-function Sidebar({ activeTab, setActiveTab }) {
+function Sidebar({ activeTab, setActiveTab, onOpenROI, language, setLanguage }) {
+  const t = translations[language] || translations.en;
   
   // Navigation items with their details
   const navItems = [
     {
       id: 'live-map',
-      name: 'Live Map',
+      name: t.liveMap,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 21 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -21,7 +23,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'orders',
-      name: 'Orders',
+      name: t.orders,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M6 2L3 6V20A2 2 0 0 0 5 22H19A2 2 0 0 0 21 20V6L18 2H6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -31,7 +33,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'route-plans',
-      name: 'Route Plans',
+      name: t.routePlans,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -41,7 +43,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'load-planner',
-      name: 'Load Planner',
+      name: t.loadPlanner,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M1 3H15L19 7V18H1V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -52,7 +54,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'analytics',
-      name: 'Analytics',
+      name: t.analytics,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -61,7 +63,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'cost-analysis',
-      name: 'Cost Analysis',
+      name: t.costAnalysis,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -71,7 +73,7 @@ function Sidebar({ activeTab, setActiveTab }) {
     },
     {
       id: 'ai-query',
-      name: 'AI Query',
+      name: t.aiQuery,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
@@ -101,27 +103,50 @@ function Sidebar({ activeTab, setActiveTab }) {
           />
         </div>
       </div>
+
+      {/* Language Toggle - Hindi/English for truck owners */}
+      <div className="language-container">
+        <LanguageToggle language={language} setLanguage={setLanguage} />
+      </div>
+
       {/* Navigation menu */}
       <nav>
         <ul>
           {navItems.map(item => (
             <li 
-              key={item.id} // Unique key for React rendering
-              className={activeTab === item.id ? 'active' : ''} // Highlight active tab
-              onClick={() => setActiveTab(item.id)} // Switch to clicked tab
+              key={item.id}
+              className={activeTab === item.id ? 'active' : ''}
+              onClick={() => setActiveTab(item.id)}
             >
-              {item.icon} {/* Display the icon */}
-              <span>{item.name}</span> {/* Display the name */}
+              {item.icon}
+              <span>{item.name}</span>
             </li>
           ))}
         </ul>
       </nav>
+
+      {/* ROI Calculator Button - Key business differentiator */}
+      <div className="roi-button-container">
+        <button className="roi-calculator-btn" onClick={onOpenROI}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="10" x2="16" y2="10"/>
+            <line x1="8" y1="14" x2="10" y2="14"/>
+            <line x1="14" y1="14" x2="16" y2="14"/>
+            <line x1="8" y1="18" x2="10" y2="18"/>
+            <line x1="14" y1="18" x2="16" y2="18"/>
+          </svg>
+          <span>{t.roiCalculator}</span>
+          <div className="roi-badge">NEW</div>
+        </button>
+      </div>
       
       {/* Footer with AI status */}
       <div className="sidebar-footer">
         <div className="status-indicator">
           <div className="status-dot"></div>
-          <span>Sav.in Ready</span>
+          <span>{t.aiReady}</span>
         </div>
         <p>RAG Pipeline Active</p>
       </div>

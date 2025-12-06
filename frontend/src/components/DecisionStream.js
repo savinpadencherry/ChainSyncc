@@ -1,10 +1,15 @@
 // This component shows a live stream of AI decisions and system actions
-import React, { useState, useEffect, useMemo } from 'react';
-import { vehicleData, demoScenarios, extendedTrafficIncidents, trafficIncidents } from '../data/mockData';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
+import { demoScenarios, extendedTrafficIncidents, trafficIncidents } from '../data/mockData';
 import './DecisionStream.css';
+import { LanguageContext } from '../App';
+import { translations } from './LanguageToggle';
 
 // DecisionStream component - displays real-time AI decisions
 function DecisionStream() {
+  const { language } = useContext(LanguageContext) || { language: 'en' };
+  const t = translations[language] || translations.en;
+  
   const [activeScenarios, setActiveScenarios] = useState([]);
   const [resolvedScenarios, setResolvedScenarios] = useState([]);
   const [isResolving, setIsResolving] = useState({});
@@ -12,16 +17,16 @@ function DecisionStream() {
   const [scenarioIndex, setScenarioIndex] = useState(0);
   const [showScenarioMenu, setShowScenarioMenu] = useState(false);
 
-  // All available scenarios for the extended demo
+  // All available scenarios for the extended demo - with translations
   const allScenarios = useMemo(() => [
-    { id: 'traffic-1', type: 'traffic', title: '🚧 Traffic Congestion', data: trafficIncidents[0], scenario: demoScenarios[0] },
-    { id: 'weather-1', type: 'weather', title: '🌧️ Weather Alert', data: extendedTrafficIncidents[1], scenario: demoScenarios[2] },
-    { id: 'breakdown-1', type: 'breakdown', title: '🔧 Vehicle Breakdown', data: extendedTrafficIncidents[2], scenario: demoScenarios[3] },
-    { id: 'fuel-1', type: 'fuel', title: '⛽ Fuel Price Spike', data: extendedTrafficIncidents[3], scenario: demoScenarios[4] },
-    { id: 'urgent-1', type: 'urgent', title: '📦 Urgent Order', data: null, scenario: demoScenarios[5] },
-    { id: 'sla-1', type: 'sla', title: '⏰ SLA Breach Warning', data: null, scenario: demoScenarios[6] },
-    { id: 'fatigue-1', type: 'fatigue', title: '😴 Driver Fatigue', data: null, scenario: demoScenarios[7] },
-  ], []);
+    { id: 'traffic-1', type: 'traffic', title: `🚧 ${t.trafficCongestion}`, data: trafficIncidents[0], scenario: demoScenarios[0] },
+    { id: 'weather-1', type: 'weather', title: `🌧️ ${t.weatherAlert}`, data: extendedTrafficIncidents[1], scenario: demoScenarios[2] },
+    { id: 'breakdown-1', type: 'breakdown', title: `🔧 ${t.vehicleBreakdown}`, data: extendedTrafficIncidents[2], scenario: demoScenarios[3] },
+    { id: 'fuel-1', type: 'fuel', title: `⛽ ${t.fuelPriceSpike}`, data: extendedTrafficIncidents[3], scenario: demoScenarios[4] },
+    { id: 'urgent-1', type: 'urgent', title: `📦 ${t.urgentOrder}`, data: null, scenario: demoScenarios[5] },
+    { id: 'sla-1', type: 'sla', title: `⏰ ${t.slaBreachWarning}`, data: null, scenario: demoScenarios[6] },
+    { id: 'fatigue-1', type: 'fatigue', title: `😴 ${t.driverFatigue}`, data: null, scenario: demoScenarios[7] },
+  ], [t]);
 
   // Update time periodically
   useEffect(() => {
@@ -99,7 +104,7 @@ function DecisionStream() {
     <div className="decisions-stream">
       {/* Header */}
       <div className="stream-header">
-        <h3>Event Log</h3>
+        <h3>{t.eventLog}</h3>
         <div className="header-controls">
           {remainingScenarios.length > 0 && (
             <div className="demo-controls">
@@ -107,7 +112,7 @@ function DecisionStream() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                   <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" strokeWidth="2"/>
                 </svg>
-                Next Issue ({remainingScenarios.length} left)
+                {t.nextIssue} ({remainingScenarios.length} {t.left})
               </button>
               <button className="demo-menu-btn" onClick={() => setShowScenarioMenu(!showScenarioMenu)}>
                 ▼
@@ -116,12 +121,12 @@ function DecisionStream() {
           )}
           {(activeScenarios.length > 0 || resolvedScenarios.length > 0) && (
             <button className="reset-demo-btn" onClick={handleResetDemo}>
-              Reset
+              {t.reset}
             </button>
           )}
           <div className="live-indicator">
             <div className="live-dot"></div>
-            <span>Live</span>
+            <span>{t.live}</span>
           </div>
         </div>
       </div>
@@ -129,7 +134,7 @@ function DecisionStream() {
       {/* Scenario Selection Menu */}
       {showScenarioMenu && (
         <div className="scenario-menu">
-          <div className="scenario-menu-title">Select Scenario to Trigger:</div>
+          <div className="scenario-menu-title">{t.selectScenario}</div>
           {remainingScenarios.map(scenario => (
             <button 
               key={scenario.id} 
@@ -156,11 +161,11 @@ function DecisionStream() {
               <div className="decision-text">
                 <strong>{scenario.scenario.issue}</strong>
                 <br />
-                Affected: <span className="highlight">{scenario.scenario.affectedTruck}</span>
+                {t.affected}: <span className="highlight">{scenario.scenario.affectedTruck}</span>
                 {scenario.scenario.estimatedDelay > 0 && (
                   <>
                     <br />
-                    Estimated delay: <span className="danger">{scenario.scenario.estimatedDelay} minutes</span>
+                    {t.estimatedDelay}: <span className="danger">{scenario.scenario.estimatedDelay} {t.minutes}</span>
                   </>
                 )}
               </div>
@@ -173,7 +178,7 @@ function DecisionStream() {
                 {isResolving[scenario.id] ? (
                   <>
                     <div className="resolve-spinner"></div>
-                    AI Analyzing...
+                    {t.aiAnalyzing}
                   </>
                 ) : (
                   <>
@@ -181,7 +186,7 @@ function DecisionStream() {
                       <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" strokeWidth="2"/>
                       <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2"/>
                     </svg>
-                    Resolve with AI
+                    {t.resolveWithAI}
                   </>
                 )}
               </button>
@@ -202,27 +207,27 @@ function DecisionStream() {
               <div className="resolution-result">
                 <div className="result-header">
                   <span className="success-icon">✓</span>
-                  AI Resolution Applied
+                  {t.aiResolutionApplied}
                 </div>
                 <div className="result-details">
                   <div className="result-row">
-                    <span>Action:</span>
+                    <span>{t.action}:</span>
                     <span className="value">{scenario.scenario.aiSolution.action}</span>
                   </div>
                   {scenario.scenario.aiSolution.timeSaved && (
                     <div className="result-row">
-                      <span>Result:</span>
+                      <span>{t.result}:</span>
                       <span className="value positive">{scenario.scenario.aiSolution.timeSaved}</span>
                     </div>
                   )}
                   <div className="result-row total">
-                    <span>Net Benefit:</span>
+                    <span>{t.netBenefit}:</span>
                     <span className="value positive">{scenario.scenario.aiSolution.netBenefit}</span>
                   </div>
                 </div>
                 {scenario.scenario.aiSolution.loadConsideration && (
                   <div className="ai-reasoning">
-                    <strong>AI Reasoning:</strong>
+                    <strong>{t.aiReasoning}:</strong>
                     <ul>
                       <li>{scenario.scenario.aiSolution.loadConsideration}</li>
                     </ul>
@@ -238,7 +243,7 @@ function DecisionStream() {
         <div className="decision-entry optimization">
           <div className="decision-time">14:28</div>
           <div className="decision-content">
-            <div className="decision-title">Route Optimization</div>
+            <div className="decision-title">{t.routeOptimization}</div>
             <div className="decision-text">TRK-003 route resequenced. ETA improved by 22 min using Nearest Neighbor algorithm.</div>
           </div>
           <div className="decision-status accepted">✓</div>
@@ -247,8 +252,8 @@ function DecisionStream() {
         <div className="decision-entry cost-saving">
           <div className="decision-time">14:22</div>
           <div className="decision-content">
-            <div className="decision-title">Cost Optimization</div>
-            <div className="decision-text">Fleet fuel efficiency improved. Today's savings: ₹2,450 across 7 active vehicles.</div>
+            <div className="decision-title">{t.costOptimization}</div>
+            <div className="decision-text">Fleet fuel efficiency improved. {t.todaysSavings}: ₹2,450 across 7 active vehicles.</div>
           </div>
           <div className="decision-status accepted">✓</div>
         </div>
@@ -256,7 +261,7 @@ function DecisionStream() {
         <div className="decision-entry delivery">
           <div className="decision-time">14:15</div>
           <div className="decision-content">
-            <div className="decision-title">Delivery Complete</div>
+            <div className="decision-title">{t.deliveryComplete}</div>
             <div className="decision-text">TRK-004 completed stop 3/4 at Chennai Port. On schedule.</div>
           </div>
           <div className="decision-status completed">✓</div>
@@ -265,7 +270,7 @@ function DecisionStream() {
         <div className="decision-entry maintenance">
           <div className="decision-time">14:08</div>
           <div className="decision-content">
-            <div className="decision-title">Maintenance Alert</div>
+            <div className="decision-title">{t.maintenanceAlert}</div>
             <div className="decision-text">TRK-009 scheduled for service. Fuel level low - refuel recommended within 50km.</div>
           </div>
           <div className="decision-status review">👁</div>
@@ -274,7 +279,7 @@ function DecisionStream() {
         <div className="decision-entry optimization">
           <div className="decision-time">14:00</div>
           <div className="decision-content">
-            <div className="decision-title">Load Balancing</div>
+            <div className="decision-title">{t.loadBalancing}</div>
             <div className="decision-text">TRK-001 cargo redistributed. Weight distribution improved by 18%.</div>
           </div>
           <div className="decision-status accepted">✓</div>
@@ -284,14 +289,14 @@ function DecisionStream() {
       {/* Footer */}
       <div className="stream-footer">
         <span className="stream-count">
-          {activeScenarios.length + resolvedScenarios.length + 5} events • {activeScenarios.length} pending • {resolvedScenarios.length} resolved
+          {activeScenarios.length + resolvedScenarios.length + 5} {t.events} • {activeScenarios.length} {t.pending} • {resolvedScenarios.length} {t.resolved}
         </span>
         <button className="stream-control">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="currentColor" strokeWidth="2"/>
             <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2"/>
           </svg>
-          View History
+          {t.viewHistory}
         </button>
       </div>
     </div>

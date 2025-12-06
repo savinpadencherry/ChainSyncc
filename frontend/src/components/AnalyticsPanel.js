@@ -1,9 +1,14 @@
 // This component shows real-time analytics and performance metrics
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './AnalyticsPanel.css';
+import { LanguageContext } from '../App';
+import { translations } from './LanguageToggle';
 
 // AnalyticsPanel component - displays charts and metrics about fleet performance
 function AnalyticsPanel() {
+  const { language } = useContext(LanguageContext) || { language: 'en' };
+  const t = translations[language] || translations.en;
+  
   const [routeEfficiency, setRouteEfficiency] = useState(87);
   const [totalCost, setTotalCost] = useState(45230);
   const [isOptimized, setIsOptimized] = useState(false);
@@ -36,9 +41,9 @@ function AnalyticsPanel() {
   return (
     <div className="analytics-panel">
       <div className="analytics-header">
-        <h3>Real-time Analytics</h3>
+        <h3>{t.realTimeAnalytics}</h3>
         <div className="time-selector">
-          <button className="time-btn active">Live</button>
+          <button className="time-btn active">{t.live}</button>
           <button className="time-btn">1H</button>
           <button className="time-btn">24H</button>
         </div>
@@ -47,12 +52,12 @@ function AnalyticsPanel() {
       <div className="analytics-content">
         {/* Cost Breakdown Card */}
         <div className="metric-card-large">
-          <h4>Cost Breakdown</h4>
+          <h4>{t.costBreakdown}</h4>
           <div className="chart-placeholder">
             <div className="cost-breakdown">
               <div className="total-cost">
                 <div className="total-cost-value">₹{totalCost.toLocaleString()}</div>
-                <div className="total-cost-label">Total Cost</div>
+                <div className="total-cost-label">{t.totalCost}</div>
               </div>
               <div className="cost-bar">
                 <div className="cost-segment fuel" style={{width: '65%'}}></div>
@@ -60,17 +65,17 @@ function AnalyticsPanel() {
                 <div className="cost-segment driver" style={{width: '15%'}}></div>
               </div>
               <div className="cost-legend">
-                <div className="legend-item"><span>Fuel</span><span className="value">65%</span></div>
-                <div className="legend-item"><span>Maint.</span><span className="value">20%</span></div>
-                <div className="legend-item"><span>Driver</span><span className="value">15%</span></div>
+                <div className="legend-item"><span>{t.fuel}</span><span className="value">65%</span></div>
+                <div className="legend-item"><span>{t.maint}</span><span className="value">20%</span></div>
+                <div className="legend-item"><span>{t.driver}</span><span className="value">15%</span></div>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Route Efficiency Card (Kept as is) */}
+        {/* Route Efficiency Card */}
         <div className="metric-card-large">
-          <h4>Route Efficiency</h4>
+          <h4>{t.routeEfficiency}</h4>
           <div className="chart-placeholder">
             <div className="line-chart">
               <div className="efficiency-value">
@@ -91,7 +96,7 @@ function AnalyticsPanel() {
         
         {/* Fleet Status Card */}
         <div className="metric-card-large">
-          <h4>Fleet Status</h4>
+          <h4>{t.fleetStatusTitle}</h4>
           <div className="chart-placeholder">
             <div className="fleet-stats">
               <div className="stat-item">

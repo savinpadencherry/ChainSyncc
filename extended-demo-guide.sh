@@ -73,6 +73,52 @@ echo ""
 echo -e "${GREEN}This guide will walk you through a comprehensive 5-10 minute demo${NC}"
 echo -e "${GREEN}showcasing ChainSync's AI-powered logistics management capabilities.${NC}"
 echo ""
+
+# Check if server is running
+check_server() {
+    curl -s http://localhost:3000 > /dev/null
+    return $?
+}
+
+if check_server; then
+    echo -e "${GREEN}✅ ChainSync server is already running!${NC}"
+else
+    echo -e "${YELLOW}🚀 Starting ChainSync server...${NC}"
+    
+    # Get the script directory
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    FRONTEND_DIR="$SCRIPT_DIR/frontend"
+    
+    cd "$FRONTEND_DIR"
+    
+    # Start server in background, redirect output to avoid messing up the guide
+    npm start > /dev/null 2>&1 &
+    SERVER_PID=$!
+    
+    echo -e "${CYAN}⏳ Waiting for server to be ready...${NC}"
+    
+    # Wait for server to be ready (max 60 seconds)
+    for i in {1..60}; do
+        if check_server; then
+            echo -e "${GREEN}✅ Server is ready!${NC}"
+            break
+        fi
+        if [ $i -eq 60 ]; then
+            echo -e "${RED}❌ Server failed to start within 60 seconds${NC}"
+            echo -e "${YELLOW}💡 Try running ./start-demo.sh first${NC}"
+            exit 1
+        fi
+        sleep 1
+    done
+    
+    # Open browser automatically
+    if command -v open &> /dev/null; then
+        open http://localhost:3000
+    elif command -v xdg-open &> /dev/null; then
+        xdg-open http://localhost:3000
+    fi
+fi
+
 echo -e "${YELLOW}📋 DEMO OVERVIEW:${NC}"
 echo -e "${WHITE}   1. Dashboard Introduction (1 min)${NC}"
 echo -e "${WHITE}   2. Load Planner AI Optimization (1.5 min)${NC}"

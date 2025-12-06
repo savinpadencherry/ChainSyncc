@@ -1,5 +1,5 @@
 // Import React hooks for state management
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 // Import Leaflet CSS for proper map styling
 import 'leaflet/dist/leaflet.css';
 // Import Leaflet library for marker icons
@@ -8,6 +8,9 @@ import L from 'leaflet';
 import { vehicleData, deliveryLocations } from '../data/mockData';
 // Import our custom CSS for additional styling
 import './MapPanel.css';
+// Import language context
+import { LanguageContext } from '../App';
+import { translations } from './LanguageToggle';
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -87,6 +90,10 @@ const fetchRoadRoute = async (coordinates) => {
 
 // Main MapPanel component function
 function MapPanel() {
+  // Get language from context
+  const { language } = useContext(LanguageContext) || { language: 'en' };
+  const t = translations[language] || translations.en;
+  
   // State management
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showRoutes, setShowRoutes] = useState(true);
@@ -290,7 +297,7 @@ function MapPanel() {
     }
   }, [showMarkers, showRoutes, mapReady, vehicles, selectedVehicle, simulatedPositions, trafficAlertTriggered, routeOptimized, roadRoutes, getRouteCoordinates]);
 
-  // Simulation function
+  // Simulation function - SLOWER for better visibility
   const startSimulation = () => {
     if (simulationActive) {
       setSimulationActive(false);
@@ -300,22 +307,24 @@ function MapPanel() {
     setSimulationActive(true);
     let step = 0;
     
+    // Slower interval - 2 seconds per step instead of 1
     const interval = setInterval(() => {
       step++;
       
-      // After 3 seconds, trigger traffic alert
+      // After 6 seconds (3 steps), trigger traffic alert  
       if (step === 3) {
         window.dispatchEvent(new CustomEvent('trafficAlertTriggered'));
       }
       
-      // Move vehicles along their routes
+      // Move vehicles along their routes - MUCH SLOWER movement
       setSimulatedPositions(prev => {
         const newPositions = { ...prev };
         vehicles.forEach(vehicle => {
           if (vehicle.status === 'active') {
             const routeCoords = roadRoutes[vehicle.id] || getRouteCoordinates(vehicle.routeStops);
             if (routeCoords.length > 1) {
-              const progress = (step % 30) / 30;
+              // Slower progress - takes 120 steps (4 minutes) for full route
+              const progress = (step % 120) / 120;
               const totalPoints = routeCoords.length - 1;
               const currentIndex = Math.floor(progress * totalPoints);
               
@@ -334,11 +343,12 @@ function MapPanel() {
         return newPositions;
       });
       
-      if (step >= 60) {
+      // Run for 5 minutes (150 steps at 2 seconds each)
+      if (step >= 150) {
         clearInterval(interval);
         setSimulationActive(false);
       }
-    }, 1000);
+    }, 2000); // 2 seconds per tick - much slower
   };
 
   // Fleet statistics
@@ -351,8 +361,8 @@ function MapPanel() {
       {/* Header section */}
       <div className="map-header">
         <div className="map-title">
-          <h3>Live Fleet Tracking</h3>
-          <span className="vehicle-count">{vehicles.length} trucks • {activeCount} active</span>
+          <h3>{t.liveFleetTracking}</h3>
+          <span className="vehicle-count">{vehicles.length} {t.trucks} • {activeCount} {t.active}</span>
         </div>
         
         <div className="map-controls">
@@ -367,7 +377,7 @@ function MapPanel() {
                 <polygon points="5,3 19,12 5,21" stroke="currentColor" strokeWidth="2" fill="none"/>
               )}
             </svg>
-            {simulationActive ? 'Stop' : 'Simulate'}
+            {simulationActive ? t.stop : t.simulate}
           </button>
           
           <button className="control-btn india active" onClick={() => {
@@ -380,7 +390,7 @@ function MapPanel() {
               <path d="M21 10C21 17 12 23 12 23S3 17 3 10A9 9 0 0 1 21 10Z" stroke="currentColor" strokeWidth="2"/>
               <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
             </svg>
-            Reset View
+            {t.resetView}
           </button>
         </div>
       </div>
@@ -397,7 +407,7 @@ function MapPanel() {
         {loadingRoutes && (
           <div className="route-loading">
             <div className="loading-spinner"></div>
-            <span>Loading road routes...</span>
+            <span>{t.loadingRoutes}</span>
           </div>
         )}
 
@@ -413,21 +423,21 @@ function MapPanel() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
             </svg>
-            Fleet Status
+            {t.fleetStatus}
           </div>
           
           <div className="legend-items">
             <div className="legend-item">
               <div className="legend-color active"></div>
-              <span>Active ({activeCount})</span>
+              <span>{t.active} ({activeCount})</span>
             </div>
             <div className="legend-item">
               <div className="legend-color idle"></div>
-              <span>Idle ({idleCount})</span>
+              <span>{t.idle} ({idleCount})</span>
             </div>
             <div className="legend-item">
               <div className="legend-color maintenance"></div>
-              <span>Maintenance ({maintenanceCount})</span>
+              <span>{t.maintenance} ({maintenanceCount})</span>
             </div>
           </div>
           
@@ -436,20 +446,20 @@ function MapPanel() {
               className={`legend-btn ${showRoutes ? 'active' : ''}`}
               onClick={() => setShowRoutes(!showRoutes)}
             >
-              Routes
+              {t.routes}
             </button>
             <button 
               className={`legend-btn ${showMarkers ? 'active' : ''}`}
               onClick={() => setShowMarkers(!showMarkers)}
             >
-              Trucks
+              {t.trucks}
             </button>
           </div>
         </div>
 
         {/* Truck selector panel */}
         <div className="truck-selector">
-          <div className="selector-header">Select Truck</div>
+          <div className="selector-header">{t.selectTruck}</div>
           <div className="truck-list">
             {vehicles.map(vehicle => (
               <button

@@ -2,7 +2,7 @@
 // Think of it as the blueprint for how our entire dashboard is organized
 
 // Import React hooks for state management
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 
 // Import all the individual components we've created
 import Sidebar from './components/Sidebar';           // Left navigation menu
@@ -14,24 +14,30 @@ import AnalyticsPanel from './components/AnalyticsPanel'; // Charts and analytic
 import AiAssistant from './components/AiAssistant';   // AI chat interface
 import DecisionStream from './components/DecisionStream'; // Live AI decisions log
 import TrafficAlertModal from './components/TrafficAlertModal'; // Traffic alert modal
+import ROICalculator from './components/ROICalculator'; // ROI Calculator aligned with business plan
 
 // Import the CSS file that contains the layout styling for this component
 import './App.css';
+
+// Create Language Context for Hindi/English support
+export const LanguageContext = createContext();
 
 // This is the main App function - it returns the structure of our entire dashboard
 function App() {
   // State to track which tab/page is currently active (starts with 'live-map')
   const [activeTab, setActiveTab] = useState('live-map');
   
+  // Language state - 'en' for English, 'hi' for Hindi (vernacular support for truck owners)
+  const [language, setLanguage] = useState('en');
+  
   // Modal state management - this should be at app level to overlay entire UI
   const [showTrafficModal, setShowTrafficModal] = useState(false);
-  const [trafficAlertTriggered, setTrafficAlertTriggered] = useState(false);
+  const [showROICalculator, setShowROICalculator] = useState(false);
   const [routeOptimized, setRouteOptimized] = useState(false);
   
   // Handle traffic alert from DecisionStream
   useEffect(() => {
-    const handleTrafficAlert = (event) => {
-      setTrafficAlertTriggered(true);
+    const handleTrafficAlert = () => {
       setShowTrafficModal(true);
     };
     
@@ -139,21 +145,27 @@ function App() {
   };
 
   return (
-    <>
+    <LanguageContext.Provider value={{ language, setLanguage }}>
       {/* Main container that holds everything - uses CSS class 'app-container' */}
       <div className="app-container">
         
         {/* Sidebar component - shows on the left side of the screen */}
         {/* Contains navigation menu, logo, and AI status */}
         {/* Pass activeTab and setActiveTab as props so sidebar can control navigation */}
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Sidebar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          onOpenROI={() => setShowROICalculator(true)}
+          language={language}
+          setLanguage={setLanguage}
+        />
         
         {/* Main content area - everything except the sidebar */}
         <div className="main-content">
           
           {/* TopBar component - shows at the top */}
           {/* Contains brand info and key performance metrics */}
-          <TopBar />
+          <TopBar language={language} />
           
           {/* Dynamic content area - changes based on active tab */}
           {renderMainContent()}
@@ -173,7 +185,13 @@ function App() {
           fuelCost: 280
         } : null}
       />
-    </>
+
+      {/* ROI Calculator - Aligned with business presentation */}
+      <ROICalculator 
+        isOpen={showROICalculator}
+        onClose={() => setShowROICalculator(false)}
+      />
+    </LanguageContext.Provider>
   );
 }
 

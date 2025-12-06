@@ -1,18 +1,23 @@
 // AI Assistant component - quick actions and insights panel
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { vehicleData } from '../data/mockData';
 import './AiAssistant.css';
+import { LanguageContext } from '../App';
+import { translations } from './LanguageToggle';
 
 function AiAssistant() {
+  const { language } = useContext(LanguageContext) || { language: 'en' };
+  const t = translations[language] || translations.en;
+  
   const [selectedTruck, setSelectedTruck] = useState(vehicleData[1]); // TRK-002 default
   const [queryResult, setQueryResult] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const quickActions = [
-    { id: 'optimize', label: 'Optimize all routes', icon: '🛣️' },
-    { id: 'fuel', label: 'Show fuel status', icon: '⛽' },
-    { id: 'delays', label: 'Check for delays', icon: '⏱️' },
-    { id: 'cost', label: 'Cost analysis', icon: '💰' }
+    { id: 'optimize', label: t.optimizeAllRoutes, icon: '🛣️' },
+    { id: 'fuel', label: t.showFuelStatus, icon: '⛽' },
+    { id: 'delays', label: t.checkForDelays, icon: '⏱️' },
+    { id: 'cost', label: t.costAnalysis, icon: '💰' }
   ];
 
   const handleQuickAction = (actionId) => {
@@ -61,17 +66,17 @@ function AiAssistant() {
   return (
     <div className="ai-assistant">
       <div className="ai-header">
-        <h3>AI Assistant</h3>
+        <h3>{t.aiAssistant}</h3>
         <div className="ai-status-badge">
           <div className="status-dot"></div>
-          <span>Ready</span>
+          <span>{t.ready}</span>
         </div>
       </div>
       
       <div className="ai-content">
         {/* Truck Selector */}
         <div className="ai-selector">
-          <label>Focus on:</label>
+          <label>{t.focusOn}</label>
           <select 
             className="ai-select"
             value={selectedTruck.id}
@@ -90,7 +95,7 @@ function AiAssistant() {
 
         {/* Quick Actions */}
         <div className="quick-actions">
-          <p className="section-label">Quick Actions</p>
+          <p className="section-label">{t.quickActions}</p>
           <div className="action-grid">
             {quickActions.map(action => (
               <button
@@ -110,7 +115,7 @@ function AiAssistant() {
         {isProcessing && (
           <div className="processing">
             <div className="processing-spinner"></div>
-            <span>AI Processing...</span>
+            <span>{t.aiAnalyzing}</span>
           </div>
         )}
 
@@ -124,18 +129,18 @@ function AiAssistant() {
 
         {/* Truck insight */}
         <div className="truck-insight">
-          <p className="section-label">Current Insight</p>
+          <p className="section-label">{t.currentInsight}</p>
           <div className="insight-card">
             <div className="insight-header">
               <span className="truck-badge">{selectedTruck.id}</span>
-              <span className={`status-tag ${selectedTruck.status}`}>{selectedTruck.status}</span>
+              <span className={`status-tag ${selectedTruck.status}`}>{selectedTruck.status.toUpperCase()}</span>
             </div>
             <div className="insight-body">
-              <p><strong>Load:</strong> {selectedTruck.loadUtilization}% utilized</p>
-              <p><strong>Route:</strong> {selectedTruck.routeStops.length} stops, {selectedTruck.currentStopIndex} completed</p>
-              <p><strong>ETA:</strong> {selectedTruck.eta}</p>
+              <p><strong>{t.load}:</strong> {selectedTruck.loadUtilization}% {t.utilized}</p>
+              <p><strong>{t.route}:</strong> {selectedTruck.routeStops.length} {t.stops}, {selectedTruck.currentStopIndex} {t.completed}</p>
+              <p><strong>{t.eta}:</strong> {selectedTruck.eta}</p>
               {selectedTruck.affectedByTraffic && (
-                <p className="traffic-warning">⚠️ Traffic issue detected on route</p>
+                <p className="traffic-warning">⚠️ {t.trafficIssueDetected}</p>
               )}
             </div>
           </div>

@@ -1,0 +1,32 @@
+/* Language Toggle Styles */
+
+.language-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lang-btn {
+  padding: 5px 8px;
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, #4fd1c7, #38b2ac);
+  color: white;
+}
+
+.lang-btn:hover:not(.active) {
+  color: #f7fafc;
+  background: rgba(255, 255, 255, 0.1);
+}

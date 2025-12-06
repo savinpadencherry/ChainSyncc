@@ -297,8 +297,8 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 16px;
-  min-width: 140px;
+  padding: 14px;
+  min-width: 130px;
   z-index: 10;
 }
 
@@ -466,14 +466,14 @@
 .truck-selector {
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   background: rgba(26, 32, 44, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 12px;
   z-index: 10;
-  max-width: 280px;
+  max-width: 320px;
 }
 
 .selector-header {
