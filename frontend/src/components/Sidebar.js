@@ -74,9 +74,15 @@ function Sidebar({ activeTab, setActiveTab }) {
       name: 'AI Query',
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M9.09 9A3 3 0 0 1 12 6A3 3 0 0 1 15 9M21 16A7 7 0 1 1 7 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 17V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 21H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
+          <path d="M12 2V5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M12 19V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M4.93 4.93L7.05 7.05" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M16.95 16.95L19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M2 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M19 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M4.93 19.07L7.05 16.95" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M16.95 7.05L19.07 4.93" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       )
     }

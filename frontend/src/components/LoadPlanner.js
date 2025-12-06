@@ -1,120 +1,163 @@
 // LoadPlanner component - displays cargo items, vehicle selection, and AI optimization
 import React, { useState } from 'react';
+import { vehicleData, cargoData, deliveryLocations } from '../data/mockData';
 import './LoadPlanner.css';
 
-// Sample cargo data - in real app this would come from API
-const cargoData = [
-  {
-    id: 'CRG-001',
-    name: 'Electronics Package',
-    dimensions: '120 × 80 × 60 cm',
-    weight: '45 kg',
-    priority: 'high',
-    fragile: true
-  },
-  {
-    id: 'CRG-002', 
-    name: 'Textile Rolls',
-    dimensions: '150 × 40 × 40 cm',
-    weight: '85 kg',
-    priority: 'medium',
-    fragile: false
-  },
-  {
-    id: 'CRG-003',
-    name: 'Medical Supplies',
-    dimensions: '90 × 60 × 50 cm', 
-    weight: '25 kg',
-    priority: 'high',
-    fragile: true
-  },
-  {
-    id: 'CRG-004',
-    name: 'Steel Components',
-    dimensions: '200 × 100 × 80 cm',
-    weight: '150 kg',
-    priority: 'low',
-    fragile: false
-  },
-  {
-    id: 'CRG-005',
-    name: 'Chemical Containers',
-    dimensions: '80 × 80 × 120 cm',
-    weight: '95 kg',
-    priority: 'medium',
-    fragile: true
+// Route optimization using Nearest Neighbor algorithm
+const optimizeRoute = (startLocation, stops, locations) => {
+  if (stops.length <= 2) return { route: stops, distance: 0 };
+  
+  const getDistance = (loc1, loc2) => {
+    const l1 = locations[loc1];
+    const l2 = locations[loc2];
+    if (!l1 || !l2) return Infinity;
+    const R = 6371; // Earth's radius in km
+    const dLat = (l2.lat - l1.lat) * Math.PI / 180;
+    const dLon = (l2.lng - l1.lng) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(l1.lat * Math.PI / 180) * Math.cos(l2.lat * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  };
+  
+  const visited = new Set([startLocation]);
+  const route = [startLocation];
+  let current = startLocation;
+  let totalDistance = 0;
+  
+  while (visited.size < stops.length) {
+    let nearest = null;
+    let minDist = Infinity;
+    
+    for (const stop of stops) {
+      if (!visited.has(stop)) {
+        const dist = getDistance(current, stop);
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = stop;
+        }
+      }
+    }
+    
+    if (nearest) {
+      visited.add(nearest);
+      route.push(nearest);
+      totalDistance += minDist;
+      current = nearest;
+    }
   }
-];
+  
+  return { route, distance: Math.round(totalDistance) };
+};
 
-// Available vehicles
-const vehicleOptions = [
-  { id: 'TRK-001', name: 'Heavy Duty Truck', capacity: '15 tons', bedDimensions: '6m × 2.5m × 2.2m' },
-  { id: 'TRK-002', name: 'Medium Transport', capacity: '8 tons', bedDimensions: '4.5m × 2.2m × 2m' },
-  { id: 'TRK-003', name: 'Light Cargo Van', capacity: '3 tons', bedDimensions: '3m × 1.8m × 1.8m' },
+// Extended cargo for 6 items per truck
+const extendedCargoData = [
+  ...cargoData,
+  { id: 'CRG-007', name: 'Auto Parts', weight: 120, priority: 'medium', fragile: false, dimensions: '100 × 80 × 60 cm' },
+  { id: 'CRG-008', name: 'Glassware', weight: 35, priority: 'high', fragile: true, dimensions: '60 × 40 × 40 cm' },
+  { id: 'CRG-009', name: 'Furniture', weight: 200, priority: 'low', fragile: false, dimensions: '180 × 100 × 80 cm' },
+  { id: 'CRG-010', name: 'Machinery', weight: 180, priority: 'medium', fragile: false, dimensions: '150 × 90 × 70 cm' },
+  { id: 'CRG-011', name: 'Pharmaceuticals', weight: 25, priority: 'high', fragile: true, dimensions: '50 × 40 × 30 cm' },
+  { id: 'CRG-012', name: 'Textiles', weight: 80, priority: 'low', fragile: false, dimensions: '120 × 60 × 50 cm' },
 ];
 
 function LoadPlanner() {
-  const [selectedVehicle, setSelectedVehicle] = useState(vehicleOptions[0]);
+  const [selectedTruck, setSelectedTruck] = useState(vehicleData[0]);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [isOptimized, setIsOptimized] = useState(false);
-  const [selectedCargo, setSelectedCargo] = useState(new Set(cargoData.map(item => item.id)));
+  const [optimizationResult, setOptimizationResult] = useState(null);
 
-  // Function to get priority color
-  const getPriorityColor = (priority) => {
-    switch(priority) {
-      case 'high': return '#ef4444';
-      case 'medium': return '#f59e0b';
-      case 'low': return '#48bb78';
+  // Generate 6 cargo items for this truck
+  const truckCargo = extendedCargoData.slice(0, 6);
+  const totalWeight = truckCargo.reduce((sum, c) => sum + c.weight, 0);
+
+  // Get priority/fragile colors
+  const getItemColor = (item) => {
+    if (item.fragile) return '#ef4444'; // Red for fragile
+    switch(item.priority) {
+      case 'high': return '#f59e0b'; // Orange for high priority
+      case 'medium': return '#3b82f6'; // Blue for medium
+      case 'low': return '#10b981'; // Green for low
       default: return '#6b7280';
     }
   };
 
-  // Handle cargo selection toggle
-  const toggleCargoSelection = (cargoId) => {
-    const newSelection = new Set(selectedCargo);
-    if (newSelection.has(cargoId)) {
-      newSelection.delete(cargoId);
-    } else {
-      newSelection.add(cargoId);
+  // Optimized positions for cargo (after optimization)
+  const getOptimizedPosition = (index) => {
+    // Arrange by weight: heaviest at bottom, fragile on top
+    const positions = [
+      { row: 1, col: 0 }, // Heavy - bottom left
+      { row: 1, col: 1 }, // Heavy - bottom right
+      { row: 0, col: 0 }, // Medium - middle left
+      { row: 0, col: 1 }, // Medium - middle right  
+      { row: 0, col: 2 }, // Light/Fragile - top
+      { row: 1, col: 2 }, // Light/Fragile - top right
+    ];
+    return positions[index] || { row: 0, col: 0 };
+  };
+
+  // Handle truck selection change
+  const handleTruckChange = (truckId) => {
+    const truck = vehicleData.find(v => v.id === truckId);
+    if (truck) {
+      setSelectedTruck(truck);
+      setOptimizationResult(null);
+      setIsOptimized(false);
     }
-    setSelectedCargo(newSelection);
   };
 
   // Handle AI optimization
   const handleOptimize = () => {
     setIsOptimizing(true);
     
-    // Simulate AI processing time
     setTimeout(() => {
-      setIsOptimizing(false);
+      // Run nearest neighbor algorithm
+      const result = optimizeRoute(
+        selectedTruck.routeStops[0],
+        selectedTruck.routeStops,
+        deliveryLocations
+      );
+      
+      // Calculate savings
+      const originalDistance = selectedTruck.totalDistance;
+      const optimizedDistance = result.distance || originalDistance * 0.85;
+      const distanceSaved = originalDistance - optimizedDistance;
+      const timeSaved = Math.round(distanceSaved / 50 * 60);
+      const fuelSaved = Math.round(distanceSaved / 5);
+      
+      setOptimizationResult({
+        originalRoute: selectedTruck.routeStops,
+        optimizedRoute: result.route,
+        distanceSaved: Math.round(distanceSaved),
+        timeSaved,
+        fuelSaved,
+        costSaved: fuelSaved * 95,
+      });
+      
       setIsOptimized(true);
-    }, 2000);
+      setIsOptimizing(false);
+    }, 1500);
   };
-
-  // Calculate total weight of selected cargo
-  const totalWeight = cargoData
-    .filter(item => selectedCargo.has(item.id))
-    .reduce((sum, item) => sum + parseInt(item.weight), 0);
 
   return (
     <div className="load-planner">
-      {/* Header Section */}
+      {/* Header */}
       <div className="planner-header">
         <div className="header-left">
-          <h2>Load Planner</h2>
-          <p className="cargo-count">{selectedCargo.size} items selected • {totalWeight} kg total</p>
+          <h2>Load Optimizer</h2>
+          <p className="subtitle">AI-powered cargo placement optimization</p>
         </div>
         <div className="header-right">
-          <div className="vehicle-selector">
-            <label>Select Vehicle:</label>
+          <div className="truck-selector-dropdown">
+            <label>Select Truck:</label>
             <select 
-              value={selectedVehicle.id} 
-              onChange={(e) => setSelectedVehicle(vehicleOptions.find(v => v.id === e.target.value))}
-              className="vehicle-select"
+              value={selectedTruck.id}
+              onChange={(e) => handleTruckChange(e.target.value)}
+              className="truck-select"
             >
-              {vehicleOptions.map(vehicle => (
-                <option key={vehicle.id} value={vehicle.id}>
-                  {vehicle.name} ({vehicle.capacity})
+              {vehicleData.filter(v => v.status !== 'maintenance').map(truck => (
+                <option key={truck.id} value={truck.id}>
+                  {truck.id} - {truck.driver} ({truck.type})
                 </option>
               ))}
             </select>
@@ -122,182 +165,196 @@ function LoadPlanner() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="planner-content">
-        {/* Left Panel - Cargo List */}
-        <div className="cargo-panel">
-          <div className="panel-header">
-            <h3>Available Cargo</h3>
-            <div className="cargo-stats">
-              <span className="stat-item">
-                <span className="stat-value">{cargoData.length}</span>
-                <span className="stat-label">Total Items</span>
-              </span>
-              <span className="stat-item">
-                <span className="stat-value">{selectedCargo.size}</span>
-                <span className="stat-label">Selected</span>
-              </span>
-            </div>
-          </div>
+      {/* Main Content - Truck-centric layout */}
+      <div className="planner-content-new">
+        {/* Cargo items floating outside truck (before optimization) */}
+        <div className={`cargo-staging ${isOptimized ? 'optimized' : ''}`}>
+          <h3 className="staging-title">
+            {isOptimized ? 'Cargo Loaded' : 'Cargo to Load'} 
+            <span className="cargo-count">{truckCargo.length} items • {totalWeight} kg</span>
+          </h3>
           
-          <div className="cargo-list">
-            {cargoData.map(item => (
-              <div 
-                key={item.id} 
-                className={`cargo-item ${selectedCargo.has(item.id) ? 'selected' : ''}`}
-                onClick={() => toggleCargoSelection(item.id)}
-              >
-                <div className="cargo-checkbox">
-                  <div className={`checkbox ${selectedCargo.has(item.id) ? 'checked' : ''}`}>
-                    {selectedCargo.has(item.id) && (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                        <polyline points="20,6 9,17 4,12" stroke="currentColor" strokeWidth="2"/>
-                      </svg>
-                    )}
+          {!isOptimized && (
+            <div className="cargo-items-grid">
+              {truckCargo.map((item, idx) => (
+                <div 
+                  key={item.id} 
+                  className="cargo-item-card"
+                  style={{ '--item-color': getItemColor(item), '--delay': `${idx * 0.05}s` }}
+                >
+                  <div className="item-header">
+                    <span className="item-id">{item.id}</span>
+                    {item.fragile && <span className="fragile-badge">⚠ Fragile</span>}
+                  </div>
+                  <div className="item-name">{item.name}</div>
+                  <div className="item-details">
+                    <span className="item-weight">{item.weight} kg</span>
+                    <span className={`item-priority ${item.priority}`}>{item.priority}</span>
                   </div>
                 </div>
-                
-                <div className="cargo-details">
-                  <div className="cargo-header">
-                    <span className="cargo-id">{item.id}</span>
-                    <div className="cargo-badges">
-                      {item.fragile && <span className="fragile-badge">Fragile</span>}
-                      <span 
-                        className="priority-badge"
-                        style={{ background: getPriorityColor(item.priority) }}
-                      >
-                        {item.priority}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <h4 className="cargo-name">{item.name}</h4>
-                  
-                  <div className="cargo-specs">
-                    <div className="spec-item">
-                      <span className="spec-label">Dimensions:</span>
-                      <span className="spec-value">{item.dimensions}</span>
-                    </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Weight:</span>
-                      <span className="spec-value">{item.weight}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Right Panel - Vehicle Visualization */}
-        <div className="visualization-panel">
-          <div className="panel-header">
-            <h3>Load Visualization</h3>
+        {/* Central Truck Visualization */}
+        <div className="truck-center-stage">
+          <div className="truck-visual-container">
+            {/* Optimize Button */}
             <button 
-              className={`optimize-btn ${isOptimizing ? 'loading' : ''}`}
+              className={`optimize-main-btn ${isOptimizing ? 'loading' : ''} ${isOptimized ? 'done' : ''}`}
               onClick={handleOptimize}
-              disabled={isOptimizing || selectedCargo.size === 0}
+              disabled={isOptimizing || isOptimized}
             >
               {isOptimizing ? (
                 <>
-                  <div className="loading-spinner"></div>
+                  <div className="spinner"></div>
                   Optimizing...
+                </>
+              ) : isOptimized ? (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Optimized
                 </>
               ) : (
                 <>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M9.09 9A3 3 0 0 1 12 6A3 3 0 0 1 15 9M21 16A7 7 0 1 1 7 16" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M12 17V21" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M8 21H16" stroke="currentColor" strokeWidth="2"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M12 2V5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M12 19V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M4.93 4.93L7.05 7.05" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M16.95 16.95L19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M2 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M19 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                   </svg>
                   Optimize with AI
                 </>
               )}
             </button>
-          </div>
 
-          {/* Vehicle Info */}
-          <div className="vehicle-info">
-            <div className="vehicle-details">
-              <h4>{selectedVehicle.name}</h4>
-              <div className="vehicle-specs">
-                <span>Capacity: {selectedVehicle.capacity}</span>
-                <span>Bed: {selectedVehicle.bedDimensions}</span>
+            {/* Truck SVG */}
+            <div className="truck-diagram">
+              {/* Truck cab */}
+              <div className="truck-cab-large">
+                <div className="cab-window-large"></div>
+                <div className="cab-mirror left"></div>
+                <div className="cab-mirror right"></div>
               </div>
-            </div>
-          </div>
-
-          {/* Truck Bed Visualization */}
-          <div className={`truck-bed ${isOptimized ? 'optimized' : ''}`}>
-            <div className="truck-outline">
-              <div className="truck-cab"></div>
-              <div className="truck-cargo-area">
-                {selectedCargo.size > 0 ? (
-                  <div className="cargo-visualization">
-                    {Array.from(selectedCargo).map((cargoId, index) => {
-                      const item = cargoData.find(c => c.id === cargoId);
-                      return (
-                        <div 
-                          key={cargoId}
-                          className={`cargo-box ${isOptimized ? 'optimized' : ''}`}
-                          style={{
-                            '--delay': `${index * 0.1}s`,
-                            '--priority-color': getPriorityColor(item.priority)
-                          }}
-                        >
-                          <span className="cargo-label">{item.id}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="empty-bed">
-                    <span>Select cargo items to visualize loading</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Optimization Results */}
-          {isOptimized && (
-            <div className="optimization-results">
-              <h4>Optimization Results</h4>
-              <div className="metrics-grid">
-                <div className="metric-card">
-                  <div className="metric-value">87%</div>
-                  <div className="metric-change positive">+23%</div>
-                  <div className="metric-label">Space Utilization</div>
-                </div>
-                <div className="metric-card">
-                  <div className="metric-value">Balanced</div>
-                  <div className="metric-change positive">Improved</div>
-                  <div className="metric-label">Weight Distribution</div>
-                </div>
-                <div className="metric-card">
-                  <div className="metric-value">42 min</div>
-                  <div className="metric-change positive">-15 min</div>
-                  <div className="metric-label">Loading Time</div>
+              
+              {/* Truck bed */}
+              <div className="truck-bed-large">
+                <div className="bed-content">
+                  {isOptimized ? (
+                    // Optimized layout - organized grid
+                    <div className="optimized-cargo-grid">
+                      {truckCargo
+                        .sort((a, b) => b.weight - a.weight) // Sort by weight descending
+                        .map((item, idx) => {
+                          const pos = getOptimizedPosition(idx);
+                          return (
+                            <div 
+                              key={item.id}
+                              className="cargo-in-truck optimized"
+                              style={{ 
+                                '--item-color': getItemColor(item),
+                                '--row': pos.row,
+                                '--col': pos.col,
+                                '--delay': `${idx * 0.1}s`
+                              }}
+                            >
+                              <span className="cargo-label">{item.id.split('-')[1]}</span>
+                              <span className="cargo-weight-small">{item.weight}kg</span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  ) : (
+                    // Empty truck bed
+                    <div className="empty-bed">
+                      <span>Click "Optimize with AI" to load cargo</span>
+                    </div>
+                  )}
                 </div>
               </div>
               
-              <div className="optimization-summary">
-                <div className="summary-item">
-                  <span className="summary-icon">✓</span>
-                  <span>High-priority items placed for easy access</span>
-                </div>
-                <div className="summary-item">
-                  <span className="summary-icon">✓</span>
-                  <span>Fragile items secured in protected areas</span>
-                </div>
-                <div className="summary-item">
-                  <span className="summary-icon">✓</span>
-                  <span>Weight distribution optimized for stability</span>
-                </div>
+              {/* Wheels */}
+              <div className="truck-wheels">
+                <div className="wheel front"></div>
+                <div className="wheel back-1"></div>
+                <div className="wheel back-2"></div>
               </div>
             </div>
-          )}
+
+            {/* Truck info */}
+            <div className="truck-info-bar">
+              <div className="info-item">
+                <span className="info-label">Driver</span>
+                <span className="info-value">{selectedTruck.driver}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Capacity</span>
+                <span className="info-value">{selectedTruck.capacity / 1000} tons</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Status</span>
+                <span className={`info-value status ${selectedTruck.status}`}>{selectedTruck.status}</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Results Panel (appears after optimization) */}
+        {isOptimized && optimizationResult && (
+          <div className="optimization-results-panel">
+            <h3>Optimization Results</h3>
+            
+            <div className="results-metrics">
+              <div className="result-metric">
+                <span className="metric-num">-{optimizationResult.distanceSaved}</span>
+                <span className="metric-unit">km saved</span>
+              </div>
+              <div className="result-metric">
+                <span className="metric-num">-{optimizationResult.timeSaved}</span>
+                <span className="metric-unit">min saved</span>
+              </div>
+              <div className="result-metric highlight">
+                <span className="metric-num">₹{optimizationResult.costSaved.toLocaleString()}</span>
+                <span className="metric-unit">cost saved</span>
+              </div>
+            </div>
+
+            <div className="optimization-actions">
+              <div className="action-item">
+                <span className="action-check">✓</span>
+                <span>Heavy items placed at bottom for stability</span>
+              </div>
+              <div className="action-item">
+                <span className="action-check">✓</span>
+                <span>Fragile items secured on top</span>
+              </div>
+              <div className="action-item">
+                <span className="action-check">✓</span>
+                <span>Weight distributed evenly</span>
+              </div>
+              <div className="action-item">
+                <span className="action-check">✓</span>
+                <span>Route optimized using Nearest Neighbor</span>
+              </div>
+            </div>
+
+            <button 
+              className="reset-btn"
+              onClick={() => {
+                setIsOptimized(false);
+                setOptimizationResult(null);
+              }}
+            >
+              Reset & Try Again
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

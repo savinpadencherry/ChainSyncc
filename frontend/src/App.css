@@ -7,14 +7,13 @@
   --text-muted: #a0aec0;
   --brand: #4fd1c7;
   --brand-2: #63b3ed;
-  --success: #48bb78;
+  --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
   --radius: 12px;
-  --shadow-1: 0 8px 32px rgba(0, 0, 0, 0.3);
-  --shadow-2: 0 14px 28px rgba(0, 0, 0, 0.28);
-  /* Unified compact spacing for panel gaps/padding */
-  --panel-gap: 8px;
+  --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-2: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --panel-gap: 12px;
 }
 /* DecisionStream takes up the remaining 40% of the bottom row width */
 .bottom-row .decisions-stream {
@@ -74,46 +73,45 @@
 
 /* Container for the main content area (everything except the sidebar) */
 .main-content {
-  flex: 1; /* Take up all remaining space after sidebar */
-  display: flex; /* Use flexbox for vertical layout */
-  flex-direction: column; /* Stack content vertically */
-  margin-left: 240px; /* Leave space for fixed sidebar */
-  /* Leave space for fixed top bar; panel top gap comes from row padding */
-  padding-top: 65px;
-  min-height: calc(100vh - 65px); /* Proper height calculation */
-  overflow-x: hidden; /* Prevent horizontal scroll */
-  overflow-y: auto; /* Allow vertical scrolling when needed */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  padding-top: 60px;
+  min-height: calc(100vh - 60px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Container for the middle row (map and AI assistant) */
 .middle-row {
-  display: flex; /* Use flexbox to arrange map and AI assistant side by side */
-  gap: var(--panel-gap); /* Compact space between map and AI assistant */
-  padding: var(--panel-gap); /* Compact outer padding to reduce sidebar gap */
-  flex: 2; /* Take up more vertical space */
-  min-height: 480px; /* Optimized minimum height */
-  max-height: calc(62vh); /* Optimized space for middle row */
+  display: flex;
+  gap: var(--panel-gap);
+  padding: var(--panel-gap);
+  flex: 2;
+  min-height: 420px;
+  max-height: calc(58vh);
 }
 
 /* Container for the bottom row (analytics and decisions stream) */
 .bottom-row {
-  display: flex; /* Use flexbox to arrange analytics and decisions side by side */
-  gap: var(--panel-gap); /* Compact space between analytics and decisions */
-  padding: 0 var(--panel-gap) var(--panel-gap); /* Reduce side/bottom padding; keep top tight */
-  min-height: 350px; /* Optimized minimum height to prevent clipping */
-  max-height: 380px; /* Prevent from getting too tall */
-  flex: 1; /* Allow bottom row to grow */
+  display: flex;
+  gap: var(--panel-gap);
+  padding: 0 var(--panel-gap) var(--panel-gap);
+  min-height: 300px;
+  max-height: 340px;
+  flex: 1;
 }
 
 /* Individual panel styling (applies to all major components) */
 .middle-row > *,
 .bottom-row > * {
-  background: linear-gradient(135deg, var(--bg-elev-1) 0%, var(--bg-elev-2) 100%); /* Dark gradient background */
-  border-radius: var(--radius); /* Rounded corners */
-  border: 1px solid rgba(255, 255, 255, 0.12); /* More visible border */
-  box-shadow: var(--shadow-2); /* Enhanced drop shadow for depth */
-  overflow: hidden; /* Ensure content doesn't overflow rounded corners */
-  backdrop-filter: blur(10px); /* Add glass effect */
+  background: linear-gradient(135deg, rgba(26, 32, 44, 0.95) 0%, rgba(45, 55, 72, 0.95) 100%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 /* MapPanel takes up 70% of the middle row width */

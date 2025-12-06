@@ -1,7 +1,7 @@
 .sidebar {
   width: 240px;
   min-width: 240px;
-  background: linear-gradient(180deg, rgba(26, 32, 44, 0.95) 0%, rgba(45, 55, 72, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(15, 20, 25, 0.98) 0%, rgba(26, 32, 44, 0.98) 100%);
   color: #f7fafc;
   height: 100vh;
   display: flex;
@@ -9,49 +9,35 @@
   position: fixed;
   left: 0;
   top: 0;
-  padding: 24px 0;
+  padding: 20px 0;
   box-sizing: border-box;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 100;
-  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
 }
 
 .logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 0 24px;
-  margin-bottom: 32px;
+  padding: 0 20px;
+  margin-bottom: 28px;
 }
 
 .logo-icon {
-  background: linear-gradient(135deg, rgba(79, 209, 199, 0.2) 0%, rgba(99, 179, 237, 0.2) 100%);
-  padding: 10px;
-  border-radius: 8px;
+  background: rgba(79, 209, 199, 0.1);
+  padding: 8px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 6px 18px rgba(79, 209, 199, 0.25);
-  margin: 0 auto;
 }
 
 .logo-icon .sidebar-logo {
-  width: 96px;
-  height: 96px;
-  border-radius: 6px;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
   object-fit: cover;
-  display: block;
-}
-
-.logo h2 {
-  font-size: 1.5rem;
-  letter-spacing: -0.5px;
-  font-weight: 700;
-  margin: 0;
-  color: #4fd1c7;
 }
 
 nav {
@@ -69,41 +55,38 @@ nav li {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 4px 0;
-  font-size: 0.95rem;
+  margin: 2px 0;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 8px;
-  color: #a0aec0;
+  color: #718096;
   font-weight: 500;
   border: 1px solid transparent;
 }
 
 nav li:hover {
   color: #4fd1c7;
-  background: linear-gradient(135deg, rgba(79, 209, 199, 0.12), rgba(99, 179, 237, 0.12));
-  transform: translateX(4px);
-  box-shadow: 0 8px 18px rgba(79, 209, 199, 0.15);
+  background: rgba(79, 209, 199, 0.08);
 }
 
 nav li.active {
   color: #4fd1c7;
-  background: linear-gradient(135deg, rgba(79, 209, 199, 0.18), rgba(99, 179, 237, 0.18));
+  background: rgba(79, 209, 199, 0.12);
   border-left: 3px solid #4fd1c7;
-  box-shadow: inset 0 0 0 1px rgba(79, 209, 199, 0.25), 0 10px 22px rgba(79, 209, 199, 0.18);
   font-weight: 600;
 }
 
 nav li svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
 .sidebar-footer {
-  padding: 16px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   margin-top: auto;
 }
 
@@ -111,8 +94,8 @@ nav li svg {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  font-size: 0.85rem;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
   color: #4fd1c7;
   font-weight: 500;
 }
@@ -127,14 +110,13 @@ nav li svg {
 
 .sidebar-footer p {
   margin: 0;
-  font-size: 0.8rem;
-  color: #718096;
-  font-weight: 400;
+  font-size: 0.7rem;
+  color: #4a5568;
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  50% { opacity: 0.4; }
 }
 
 @media (max-width: 1200px) {
@@ -143,13 +125,9 @@ nav li svg {
     min-width: 200px;
   }
   
-  .logo h2 {
-    font-size: 1.3rem;
-  }
-  
   nav li {
-    font-size: 0.9rem;
-    padding: 10px 14px;
+    font-size: 0.85rem;
+    padding: 8px 12px;
   }
 }
 
@@ -157,21 +135,17 @@ nav li svg {
   .sidebar {
     width: 60px;
     min-width: 60px;
-    padding: 20px 0;
+    padding: 16px 0;
   }
   
   .logo {
-    padding: 0 16px;
+    padding: 0 12px;
     justify-content: center;
   }
   
   .logo-icon .sidebar-logo {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .logo h2 {
-    display: none;
+    width: 32px;
+    height: 32px;
   }
   
   nav {
@@ -180,7 +154,7 @@ nav li svg {
   
   nav li {
     justify-content: center;
-    padding: 12px 8px;
+    padding: 10px 8px;
   }
   
   nav li span {
@@ -188,7 +162,7 @@ nav li svg {
   }
   
   .sidebar-footer {
-    padding: 12px 16px;
+    padding: 10px 12px;
   }
   
   .status-indicator span,

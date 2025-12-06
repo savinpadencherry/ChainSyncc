@@ -461,3 +461,204 @@
     font-size: 0.7rem;
   }
 }
+
+/* Truck selector panel */
+.truck-selector {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(26, 32, 44, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  z-index: 10;
+  max-width: 280px;
+}
+
+.selector-header {
+  color: #f7fafc;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.truck-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.truck-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.truck-btn:hover {
+  background: rgba(79, 209, 199, 0.15);
+  border-color: rgba(79, 209, 199, 0.3);
+}
+
+.truck-btn.selected {
+  background: rgba(79, 209, 199, 0.2);
+  border-color: #4fd1c7;
+  box-shadow: 0 0 10px rgba(79, 209, 199, 0.3);
+}
+
+.truck-id {
+  color: #a0aec0;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.truck-btn.selected .truck-id {
+  color: #4fd1c7;
+}
+
+.truck-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.truck-status.active { background: #10b981; }
+.truck-status.idle { background: #f59e0b; }
+.truck-status.maintenance { background: #ef4444; }
+
+/* Route sequence in vehicle details */
+.route-sequence {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.route-sequence strong {
+  color: #f7fafc;
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.stops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stop {
+  color: #718096;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  border-left: 2px solid #4a5568;
+}
+
+.stop.visited {
+  color: #48bb78;
+  border-left-color: #48bb78;
+  background: rgba(72, 187, 120, 0.1);
+}
+
+.stop.current {
+  color: #4fd1c7;
+  border-left-color: #4fd1c7;
+  background: rgba(79, 209, 199, 0.1);
+  font-weight: 600;
+}
+
+/* Cargo info */
+.cargo-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0aec0;
+  font-size: 0.8rem;
+}
+
+.cargo-info strong {
+  color: #f7fafc;
+}
+
+/* Simulation button */
+.control-btn.simulation {
+  background: rgba(79, 209, 199, 0.15);
+  border-color: rgba(79, 209, 199, 0.3);
+  color: #4fd1c7;
+}
+
+.control-btn.simulation.active {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* Traffic alert in popup */
+.vehicle-popup .traffic-alert {
+  color: #ef4444;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
+}
+
+/* Enhanced vehicle details panel */
+.vehicle-details {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(26, 32, 44, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 280px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 10;
+  color: #f7fafc;
+}
+
+/* Route loading indicator */
+.route-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 32, 44, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+  color: #4fd1c7;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(79, 209, 199, 0.3);
+  border-top-color: #4fd1c7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

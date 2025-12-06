@@ -1,25 +1,26 @@
-/* Styling for the Analytics Panel component */
+/* Styling for the Analytics Panel component - Minimalist */
 
 .analytics-panel {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background: rgba(15, 20, 25, 0.5);
 }
 
 .analytics-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .analytics-header h3 {
   margin: 0;
   color: #f7fafc;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -30,48 +31,46 @@
 
 .time-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #a0aec0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #718096;
   padding: 4px 10px;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .time-btn.active, .time-btn:hover {
-  background: rgba(79, 209, 199, 0.8);
-  border-color: transparent;
-  color: white;
+  background: rgba(79, 209, 199, 0.15);
+  border-color: rgba(79, 209, 199, 0.3);
+  color: #4fd1c7;
 }
 
 .analytics-content {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px; /* Reduced gap */
-  padding: 12px; /* Reduced padding */
+  gap: 10px;
+  padding: 12px;
   min-height: 0;
 }
 
 .metric-card-large {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.08) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
 }
 
 .metric-card-large h4 {
-  margin: 0 0 8px 0;
-  color: #f7fafc;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 8px;
+  margin: 0 0 10px 0;
+  color: #a0aec0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .chart-placeholder {
@@ -82,14 +81,12 @@
   justify-content: center;
 }
 
-/* Cost Breakdown Styling */
+/* Cost Breakdown */
 .cost-breakdown {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align to top */
   gap: 8px;
-  padding-top: 0; /* Moved up */
 }
 
 .total-cost {
@@ -99,22 +96,22 @@
 
 .total-cost-value {
   color: #f7fafc;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
 }
 
 .total-cost-label {
-  color: #a0aec0;
-  font-size: 0.7rem;
+  color: #718096;
+  font-size: 0.65rem;
 }
 
 .cost-bar {
   width: 100%;
-  height: 8px;
+  height: 6px;
   display: flex;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.3);
 }
 
 .cost-segment {
@@ -129,83 +126,83 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 6px;
+  gap: 6px;
+  margin-top: 4px;
 }
 
-.legend-item {
+.cost-legend .legend-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.65rem;
-  color: #a0aec0;
+  font-size: 0.6rem;
+  color: #718096;
 }
 
-.legend-item .value {
+.cost-legend .legend-item .value {
   font-weight: 600;
-  color: #f7fafc;
-  font-size: 0.75rem;
+  color: #a0aec0;
+  font-size: 0.7rem;
 }
 
-/* Route Efficiency Styling */
+/* Route Efficiency */
 .line-chart {
   text-align: center;
   width: 100%;
 }
 
 .efficiency-value {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .big-number {
   color: #f7fafc;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
-}
-
-.trend {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-.trend.positive { color: #48bb78; }
-.trend.negative { color: #ef4444; }
-
-.chart-lines {
-  width: 100%;
-  height: 50px;
 }
 
 .big-number.optimized {
   color: #22c55e;
 }
 
-/* Fleet Status Styling */
+.trend {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.trend.positive { color: #22c55e; }
+.trend.negative { color: #ef4444; }
+
+.chart-lines {
+  width: 100%;
+  height: 45px;
+}
+
+/* Fleet Status */
 .fleet-stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 6px; /* Further reduced gap */
+  gap: 6px;
   width: 100%;
   height: 100%;
   align-content: center;
 }
 
-.stat-item {
+.fleet-stats .stat-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 8px; /* Further reduced padding */
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 6px;
 }
 
 .stat-icon {
-  width: 24px; /* Further reduced size */
-  height: 24px; /* Further reduced size */
-  border-radius: 5px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,9 +210,9 @@
   flex-shrink: 0;
 }
 
-.stat-icon.active { background: #48bb78; }
-.stat-icon.idle { background: #f59e0b; }
-.stat-icon.maintenance { background: #ef4444; }
+.stat-icon.active { background: rgba(34, 197, 94, 0.8); }
+.stat-icon.idle { background: rgba(245, 158, 11, 0.8); }
+.stat-icon.maintenance { background: rgba(239, 68, 68, 0.8); }
 
 .stat-details {
   flex: 1;
@@ -226,12 +223,12 @@
 
 .stat-label {
   color: #a0aec0;
-  font-size: 0.7rem; /* Further reduced size */
+  font-size: 0.75rem;
   font-weight: 500;
 }
 
 .stat-number {
   color: #f7fafc;
-  font-size: 1rem; /* Further reduced size */
+  font-size: 1.1rem;
   font-weight: 600;
 }
