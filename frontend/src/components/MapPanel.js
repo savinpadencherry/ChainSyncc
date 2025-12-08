@@ -243,13 +243,13 @@ function MapPanel() {
         const popupContent = `
           <div class="vehicle-popup">
             <h4>${vehicle.id}</h4>
-            <p><strong>Driver:</strong> ${vehicle.driver}</p>
-            <p><strong>Status:</strong> <span class="status ${status}">${status}</span></p>
-            <p><strong>Location:</strong> ${vehicle.currentLocation}</p>
-            <p><strong>Fuel:</strong> ${vehicle.fuel}%</p>
-            <p><strong>Load:</strong> ${vehicle.loadUtilization}%</p>
-            <p><strong>ETA:</strong> ${vehicle.eta}</p>
-            ${vehicle.affectedByTraffic && trafficAlertTriggered ? '<p class="traffic-alert">⚠️ Traffic Issue</p>' : ''}
+            <p><strong>${t.driver}:</strong> ${vehicle.driver}</p>
+            <p><strong>${t.status}:</strong> <span class="status ${status}">${status}</span></p>
+            <p><strong>${t.location}:</strong> ${vehicle.currentLocation}</p>
+            <p><strong>${t.fuel}:</strong> ${vehicle.fuel}%</p>
+            <p><strong>${t.load}:</strong> ${vehicle.loadUtilization}%</p>
+            <p><strong>${t.eta}:</strong> ${vehicle.eta}</p>
+            ${vehicle.affectedByTraffic && trafficAlertTriggered ? `<p class="traffic-alert">⚠️ ${t.trafficAlertDetected}</p>` : ''}
           </div>
         `;
         marker.bindPopup(popupContent);
@@ -287,7 +287,7 @@ function MapPanel() {
                 const stopMarker = L.marker([loc.lat, loc.lng], {
                   icon: createStopIcon(index, isVisited)
                 }).addTo(mapInstanceRef.current);
-                stopMarker.bindPopup(`<strong>${index + 1}. ${stop}</strong><br/>${isVisited ? '✓ Visited' : 'Pending'}`);
+                stopMarker.bindPopup(`<strong>${index + 1}. ${stop}</strong><br/>${isVisited ? `✓ ${t.visited}` : t.pending}`);
                 markersRef.current[`stop-${vehicle.id}-${index}`] = stopMarker;
               }
             });
@@ -295,7 +295,7 @@ function MapPanel() {
         }
       });
     }
-  }, [showMarkers, showRoutes, mapReady, vehicles, selectedVehicle, simulatedPositions, trafficAlertTriggered, routeOptimized, roadRoutes, getRouteCoordinates]);
+  }, [showMarkers, showRoutes, mapReady, vehicles, selectedVehicle, simulatedPositions, trafficAlertTriggered, routeOptimized, roadRoutes, getRouteCoordinates, t]);
 
   // Simulation function - SLOWER for better visibility
   const startSimulation = () => {
@@ -488,16 +488,16 @@ function MapPanel() {
               <button className="close-btn" onClick={() => setSelectedVehicle(null)}>×</button>
             </div>
             <div className="details-content">
-              <p><strong>Driver:</strong> {selectedVehicle.driver}</p>
-              <p><strong>Type:</strong> {selectedVehicle.type}</p>
-              <p><strong>Status:</strong> <span className={`status ${selectedVehicle.status}`}>{selectedVehicle.status}</span></p>
-              <p><strong>Location:</strong> {selectedVehicle.currentLocation}</p>
-              <p><strong>Fuel:</strong> {selectedVehicle.fuel}%</p>
-              <p><strong>Load:</strong> {selectedVehicle.loadUtilization}%</p>
-              <p><strong>ETA:</strong> {selectedVehicle.eta}</p>
+              <p><strong>{t.driver}:</strong> {selectedVehicle.driver}</p>
+              <p><strong>{t.type}:</strong> {selectedVehicle.type}</p>
+              <p><strong>{t.status}:</strong> <span className={`status ${selectedVehicle.status}`}>{selectedVehicle.status}</span></p>
+              <p><strong>{t.location}:</strong> {selectedVehicle.currentLocation}</p>
+              <p><strong>{t.fuel}:</strong> {selectedVehicle.fuel}%</p>
+              <p><strong>{t.load}:</strong> {selectedVehicle.loadUtilization}%</p>
+              <p><strong>{t.eta}:</strong> {selectedVehicle.eta}</p>
               
               <div className="route-sequence">
-                <strong>Route ({selectedVehicle.routeStops.length} stops):</strong>
+                <strong>{t.route} ({selectedVehicle.routeStops.length} {t.stops}):</strong>
                 <div className="stops-list">
                   {selectedVehicle.routeStops.map((stop, i) => (
                     <span key={i} className={`stop ${i < selectedVehicle.currentStopIndex ? 'visited' : (i === selectedVehicle.currentStopIndex ? 'current' : '')}`}>
@@ -509,7 +509,7 @@ function MapPanel() {
               
               {selectedVehicle.cargo.length > 0 && (
                 <div className="cargo-info">
-                  <strong>Cargo:</strong> {selectedVehicle.cargo.join(', ')}
+                  <strong>{t.cargo}:</strong> {selectedVehicle.cargo.join(', ')}
                 </div>
               )}
             </div>

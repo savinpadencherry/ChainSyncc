@@ -62,6 +62,9 @@ export const translations = {
     routes: 'Routes',
     selectTruck: 'Select Truck',
     loadingRoutes: 'Loading road routes...',
+    type: 'Type',
+    cargo: 'Cargo',
+    visited: 'Visited',
     
     // AI Assistant
     aiAssistant: 'AI Assistant',
@@ -206,6 +209,9 @@ export const translations = {
     routes: 'रास्ते',
     selectTruck: 'ट्रक चुनें',
     loadingRoutes: 'रास्ते लोड हो रहे हैं...',
+    type: 'प्रकार',
+    cargo: 'कार्गो',
+    visited: 'पूरा हुआ',
     
     // AI Assistant
     aiAssistant: 'AI सहायक',
@@ -351,6 +357,9 @@ export const translations = {
     routes: 'ಮಾರ್ಗಗಳು',
     selectTruck: 'ಟ್ರಕ್ ಆಯ್ಕೆಮಾಡಿ',
     loadingRoutes: 'ಮಾರ್ಗಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...',
+    type: 'ವಿಧ',
+    cargo: 'ಸರಕು',
+    visited: 'ಭೇಟಿ ನೀಡಿದೆ',
     
     // AI Assistant
     aiAssistant: 'AI ಸಹಾಯಕ',
@@ -360,7 +369,6 @@ export const translations = {
     optimizeAllRoutes: 'ಎಲ್ಲಾ ಮಾರ್ಗಗಳನ್ನು ಸುಧಾರಿಸಿ',
     showFuelStatus: 'ಡೀಸೆಲ್ ಸ್ಥಿತಿ',
     checkForDelays: 'ವಿಳಂಬ ಪರಿಶೀಲಿಸಿ',
-    costAnalysis: 'ವೆಚ್ಚ ವಿಶ್ಲೇಷಣೆ',
     currentInsight: 'ಪ್ರಸ್ತುತ ಮಾಹಿತಿ',
     load: 'ಲೋಡ್',
     utilized: 'ಬಳಸಿದ',
